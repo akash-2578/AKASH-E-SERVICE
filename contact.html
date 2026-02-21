@@ -1,0 +1,168 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Contact â€” AKASH E SERVICE</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon"><i class="fas fa-laptop"></i></div>
+    <div class="nav-logo-text"><strong>AKASH E SERVICE</strong><small>Computer Service Center</small></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="booking.html">Book Service</a>
+    <a href="courses.html">Courses</a>
+    <a href="contact.html" class="active">Contact</a>
+    <a href="about.html">About</a>
+  </div>
+  <div class="nav-right">
+    <button class="btn-wa-nav" onclick="openWA()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+    <a href="admin-login.html" class="btn-admin-nav">Admin</a>
+  </div>
+  <button class="hamburger" id="ham" onclick="toggleNav()"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-drawer" id="drawer">
+  <a href="index.html"><i class="fas fa-home"></i> Home</a>
+  <a href="services.html"><i class="fas fa-tools"></i> Services</a>
+  <a href="booking.html"><i class="fas fa-calendar-check"></i> Book Service</a>
+  <a href="courses.html"><i class="fas fa-graduation-cap"></i> Courses</a>
+  <a href="contact.html"><i class="fas fa-phone"></i> Contact</a>
+  <a href="about.html"><i class="fas fa-user"></i> About</a>
+  <div class="mobile-drawer-divider"></div>
+  <a href="admin-login.html"><i class="fas fa-lock"></i> Admin Panel</a>
+</div>
+<div class="floating-btns">
+  <a href="tel:+919999999999" class="float-btn fab-call"><i class="fas fa-phone"></i></a>
+  <a href="#" class="float-btn fab-wa" onclick="openWA()"><i class="fab fa-whatsapp"></i></a>
+</div>
+
+<div class="page-wrap">
+  <div class="page-banner">
+    <h1>Contact Us</h1>
+    <p>We're here to help â€” reach us any way you prefer</p>
+  </div>
+
+  <section class="section">
+    <div class="section-inner">
+      <div class="contact-grid">
+
+        <!-- Info side -->
+        <div>
+          <div class="contact-info-card">
+            <div class="ci-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div>
+              <div class="ci-label">ADDRESS</div>
+              <div class="ci-val">AKASH E SERVICE</div>
+              <div style="font-size:13px;color:var(--text-muted);margin-top:2px;">Near Main Market, Your City, State â€” 123456</div>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="ci-icon"><i class="fas fa-phone"></i></div>
+            <div>
+              <div class="ci-label">PHONE</div>
+              <a href="tel:+919999999999" class="ci-val" style="text-decoration:none;color:var(--primary);">+91 99999 99999</a><br>
+              <a href="tel:+918888888888" style="font-size:13px;color:var(--text-muted);text-decoration:none;">+91 88888 88888</a>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="ci-icon" style="background:linear-gradient(135deg,#1B5E20,#25D366)"><i class="fab fa-whatsapp"></i></div>
+            <div>
+              <div class="ci-label">WHATSAPP</div>
+              <button class="btn btn-wa" style="margin-top:4px;font-size:13px;padding:8px 16px;" onclick="openWA()">
+                <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+              </button>
+            </div>
+          </div>
+
+          <div class="contact-info-card">
+            <div class="ci-icon" style="background:linear-gradient(135deg,#880E4F,#E91E63)"><i class="fas fa-clock"></i></div>
+            <div>
+              <div class="ci-label">WORKING HOURS</div>
+              <div class="ci-val" style="font-size:13px;font-weight:600;">Monday â€“ Saturday<br>9:00 AM â€“ 7:00 PM</div>
+              <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Sunday: Closed</div>
+            </div>
+          </div>
+
+          <!-- Quick action buttons -->
+          <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;">
+            <a href="tel:+919999999999" class="btn btn-primary"><i class="fas fa-phone"></i> Call Now</a>
+            <button class="btn btn-wa" onclick="openWA()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+            <a href="booking.html" class="btn btn-outline-blue"><i class="fas fa-calendar-check"></i> Book Service</a>
+          </div>
+
+          <!-- Map -->
+          <div class="map-wrap">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3683.8955975571793!2d88.36468!3d22.57264!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f882!2sKolkata%2C+West+Bengal!5e0!3m2!1sen!2sin!4v1620000000000"
+              allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </div>
+
+        <!-- Form side -->
+        <div>
+          <div class="form-box" style="margin:0;">
+            <h2>Send a Message</h2>
+            <p class="sub">We'll reply within a few hours</p>
+            <div id="contact-alert"></div>
+            <form id="contactForm" onsubmit="submitContact(event)">
+              <div class="form-group">
+                <label>Name <span class="req">*</span></label>
+                <input type="text" class="input" id="c-name" placeholder="Your name" required>
+              </div>
+              <div class="form-group">
+                <label>Phone <span class="req">*</span></label>
+                <input type="tel" class="input" id="c-phone" placeholder="+91 XXXXX XXXXX" required>
+              </div>
+              <div class="form-group">
+                <label>Subject</label>
+                <input type="text" class="input" id="c-subject" placeholder="How can we help you?">
+              </div>
+              <div class="form-group">
+                <label>Message <span class="req">*</span></label>
+                <textarea class="input" id="c-msg" rows="5" placeholder="Write your message here..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-full"><i class="fas fa-paper-plane"></i> Send Message</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>&copy; 2025 <strong>AKASH E SERVICE</strong> â€” All Rights Reserved</footer>
+</div>
+
+<script src="data.js"></script>
+<script>
+  function toggleNav() { document.getElementById('drawer').classList.toggle('open'); document.getElementById('ham').classList.toggle('open'); }
+  document.addEventListener('click', e => { const d=document.getElementById('drawer'),h=document.getElementById('ham'); if(d.classList.contains('open')&&!d.contains(e.target)&&!h.contains(e.target)){d.classList.remove('open');h.classList.remove('open');} });
+
+  function submitContact(ev) {
+    ev.preventDefault();
+    const m = {
+      id: Date.now(),
+      name: document.getElementById('c-name').value.trim(),
+      phone: document.getElementById('c-phone').value.trim(),
+      subject: document.getElementById('c-subject').value.trim(),
+      msg: document.getElementById('c-msg').value.trim(),
+      date: new Date().toLocaleDateString('en-IN'),
+    };
+    const msgs = get('aes_messages', []);
+    msgs.push(m);
+    set('aes_messages', msgs);
+    showAlert('contact-alert', 'success', `âœ… Message sent successfully! We'll get back to you at <strong>${m.phone}</strong> soon.`);
+    document.getElementById('contactForm').reset();
+  }
+</script>
+</body>
+</html>
+

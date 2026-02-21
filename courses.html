@@ -1,0 +1,187 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Courses â€” AKASH E SERVICE</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon"><i class="fas fa-laptop"></i></div>
+    <div class="nav-logo-text"><strong>AKASH E SERVICE</strong><small>Computer Service Center</small></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="booking.html">Book Service</a>
+    <a href="courses.html" class="active">Courses</a>
+    <a href="contact.html">Contact</a>
+    <a href="about.html">About</a>
+  </div>
+  <div class="nav-right">
+    <button class="btn-wa-nav" onclick="openWA()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+    <a href="admin-login.html" class="btn-admin-nav">Admin</a>
+  </div>
+  <button class="hamburger" id="ham" onclick="toggleNav()"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-drawer" id="drawer">
+  <a href="index.html"><i class="fas fa-home"></i> Home</a>
+  <a href="services.html"><i class="fas fa-tools"></i> Services</a>
+  <a href="booking.html"><i class="fas fa-calendar-check"></i> Book Service</a>
+  <a href="courses.html"><i class="fas fa-graduation-cap"></i> Courses</a>
+  <a href="contact.html"><i class="fas fa-phone"></i> Contact</a>
+  <a href="about.html"><i class="fas fa-user"></i> About</a>
+  <div class="mobile-drawer-divider"></div>
+  <a href="admin-login.html"><i class="fas fa-lock"></i> Admin Panel</a>
+</div>
+<div class="floating-btns">
+  <a href="tel:+919999999999" class="float-btn fab-call"><i class="fas fa-phone"></i></a>
+  <a href="#" class="float-btn fab-wa" onclick="openWA()"><i class="fab fa-whatsapp"></i></a>
+</div>
+
+<div class="page-wrap">
+  <div class="page-banner">
+    <h1>Computer Courses</h1>
+    <p>Learn. Grow. Succeed â€” with expert guidance and certification</p>
+  </div>
+
+  <!-- Course cards -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="cards-grid" id="coursesList"></div>
+    </div>
+  </section>
+
+  <!-- Enrollment Form -->
+  <section class="section section-alt" style="padding-top:0;">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-tag">ENROLL NOW</div>
+        <h2>Course Enrollment Form</h2>
+        <p>Register today and start your learning journey</p>
+      </div>
+      <div class="form-box">
+        <div id="enroll-alert"></div>
+        <form id="enrollForm" onsubmit="submitEnroll(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Full Name <span class="req">*</span></label>
+              <input type="text" class="input" id="e-name" placeholder="Your full name" required>
+            </div>
+            <div class="form-group">
+              <label>Phone <span class="req">*</span></label>
+              <input type="tel" class="input" id="e-phone" placeholder="+91 XXXXX" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>Email</label>
+              <input type="email" class="input" id="e-email" placeholder="email@example.com">
+            </div>
+            <div class="form-group">
+              <label>Age</label>
+              <input type="number" class="input" id="e-age" placeholder="Your age" min="10" max="70">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Select Course <span class="req">*</span></label>
+            <select class="input" id="e-course" required></select>
+          </div>
+          <div class="form-group">
+            <label>Education Qualification</label>
+            <select class="input" id="e-edu">
+              <option>Below 10th</option>
+              <option>10th Pass</option>
+              <option>12th Pass</option>
+              <option>Graduate</option>
+              <option>Post Graduate</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Query / Message</label>
+            <textarea class="input" id="e-msg" rows="3" placeholder="Any questions or special requirements..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-full"><i class="fas fa-graduation-cap"></i> Submit Enrollment</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <footer>&copy; 2025 <strong>AKASH E SERVICE</strong> â€” All Rights Reserved</footer>
+</div>
+
+<script src="data.js"></script>
+<script>
+  function toggleNav() { document.getElementById('drawer').classList.toggle('open'); document.getElementById('ham').classList.toggle('open'); }
+  document.addEventListener('click', e => { const d=document.getElementById('drawer'),h=document.getElementById('ham'); if(d.classList.contains('open')&&!d.contains(e.target)&&!h.contains(e.target)){d.classList.remove('open');h.classList.remove('open');} });
+
+  const courses = get('aes_courses', DEFAULT_COURSES);
+  const el = document.getElementById('coursesList');
+  courses.forEach(c => {
+    el.innerHTML += `
+      <div class="card">
+        <div style="font-size:28px;margin-bottom:12px;">${c.icon}</div>
+        <h3>${c.name}</h3>
+        <p style="margin-bottom:12px;">${c.syllabus}</p>
+        <div style="background:var(--bg);border-radius:8px;padding:10px 12px;font-size:12px;margin-bottom:12px;">
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+            <span style="color:var(--text-muted);font-weight:600;">Duration</span>
+            <span style="font-weight:700;">${c.duration}</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+            <span style="color:var(--text-muted);font-weight:600;">Schedule</span>
+            <span style="font-weight:700;">${c.daysPerWeek || 3} days/week</span>
+          </div>
+          <div style="display:flex;justify-content:space-between;">
+            <span style="color:var(--text-muted);font-weight:600;">Fees</span>
+            <span style="font-weight:700;color:var(--primary);">â‚¹${Number(c.fees).toLocaleString()}</span>
+          </div>
+        </div>
+        <button class="btn btn-primary" style="width:100%;justify-content:center;font-size:13px;padding:10px;"
+          onclick="pickCourse('${c.name}')">
+          <i class="fas fa-graduation-cap"></i> Enroll Now
+        </button>
+      </div>`;
+  });
+
+  // Populate dropdown
+  const sel = document.getElementById('e-course');
+  sel.innerHTML = '<option value="">-- Choose Course --</option>' + courses.map(c => `<option value="${c.name}">${c.name}</option>`).join('');
+
+  function pickCourse(name) {
+    document.getElementById('e-course').value = name;
+    document.querySelector('.form-box').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function submitEnroll(ev) {
+    ev.preventDefault();
+    const s = {
+      id: Date.now(),
+      name: document.getElementById('e-name').value.trim(),
+      phone: document.getElementById('e-phone').value.trim(),
+      email: document.getElementById('e-email').value.trim(),
+      age: document.getElementById('e-age').value,
+      course: document.getElementById('e-course').value,
+      edu: document.getElementById('e-edu').value,
+      msg: document.getElementById('e-msg').value.trim(),
+      enrollDate: new Date().toLocaleDateString('en-IN'),
+      status: 'Active',
+      fees: (() => { const c = courses.find(x => x.name === document.getElementById('e-course').value); return c ? c.fees : 0; })(),
+      progress: 0,
+    };
+    const students = get('aes_students', []);
+    students.push(s);
+    set('aes_students', students);
+    showAlert('enroll-alert', 'success',
+      `âœ… Enrollment submitted for <strong>${s.course}</strong>! We'll call you at <strong>${s.phone}</strong> to confirm your registration.`);
+    document.getElementById('enrollForm').reset();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
+

@@ -1,0 +1,192 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>AKASH E SERVICE - Computer Service Center</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon"><i class="fas fa-laptop"></i></div>
+    <div class="nav-logo-text"><strong>AKASH E SERVICE</strong><small>Computer Service Center</small></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html" class="active">Home</a>
+    <a href="services.html">Services</a>
+    <a href="booking.html">Book Service</a>
+    <a href="courses.html">Courses</a>
+    <a href="contact.html">Contact</a>
+    <a href="about.html">About</a>
+  </div>
+  <div class="nav-right">
+    <button class="btn-wa-nav" onclick="openWA()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+    <a href="admin-login.html" class="btn-admin-nav">Admin</a>
+  </div>
+  <button class="hamburger" id="ham" onclick="toggleNav()">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- MOBILE DRAWER -->
+<div class="mobile-drawer" id="drawer">
+  <a href="index.html" onclick="closeNav()"><i class="fas fa-home"></i> Home</a>
+  <a href="services.html" onclick="closeNav()"><i class="fas fa-tools"></i> Services</a>
+  <a href="booking.html" onclick="closeNav()"><i class="fas fa-calendar-check"></i> Book Service</a>
+  <a href="courses.html" onclick="closeNav()"><i class="fas fa-graduation-cap"></i> Courses</a>
+  <a href="contact.html" onclick="closeNav()"><i class="fas fa-phone"></i> Contact</a>
+  <a href="about.html" onclick="closeNav()"><i class="fas fa-user"></i> About</a>
+  <div class="mobile-drawer-divider"></div>
+  <a href="admin-login.html" onclick="closeNav()"><i class="fas fa-lock"></i> Admin Panel</a>
+</div>
+
+<!-- FLOATING -->
+<div class="floating-btns">
+  <a href="tel:+919564403460" class="float-btn fab-call"><i class="fas fa-phone"></i></a>
+  <a href="#" class="float-btn fab-wa" onclick="openWA()"><i class="fab fa-whatsapp"></i></a>
+</div>
+
+<!-- HERO -->
+<div class="page-wrap">
+  <section class="hero">
+    <div class="hero-badge"><i class="fas fa-star"></i> Trusted Since 2018</div>
+    <h1>Welcome to <span>AKASH E SERVICE</span>Your Digital Partner</h1>
+    <p>Professional computer services, government form assistance, digital printing & computer training  all under one roof in your city.</p>
+    <div class="hero-actions">
+      <a href="booking.html" class="btn btn-accent"><i class="fas fa-calendar-check"></i> Book a Service</a>
+      <a href="courses.html" class="btn btn-outline"><i class="fas fa-graduation-cap"></i> View Courses</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-num">500+</div><div class="hero-stat-label">CUSTOMERS SERVED</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">50+</div><div class="hero-stat-label">STUDENTS TRAINED</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">6+</div><div class="hero-stat-label">YEARS EXPERIENCE</div></div>
+      <div class="hero-stat"><div class="hero-stat-num">20+</div><div class="hero-stat-label">SERVICES</div></div>
+    </div>
+  </section>
+
+  <!-- QUICK SERVICES -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-tag">OUR SERVICES</div>
+        <h2>What We Offer</h2>
+        <p>From government documents to digital printing â€” we handle it all professionally</p>
+      </div>
+      <div class="services-grid" id="quickServices"></div>
+      <div style="text-align:center; margin-top:24px;">
+        <a href="services.html" class="btn btn-primary"><i class="fas fa-arrow-right"></i> View All Services</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSES -->
+  <section class="section section-alt">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-tag">TRAINING</div>
+        <h2>Computer Courses</h2>
+        <p>Learn practical computer skills with expert guidance and get a certificate</p>
+      </div>
+      <div class="cards-grid" id="featuredCourses"></div>
+      <div style="text-align:center;margin-top:24px;">
+        <a href="courses.html" class="btn btn-primary"><i class="fas fa-graduation-cap"></i> All Courses</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section class="section">
+    <div class="section-inner">
+      <div class="section-header">
+        <div class="section-tag">WHY CHOOSE US</div>
+        <h2>Why AKASH E SERVICE?</h2>
+      </div>
+      <div class="cards-grid">
+        <div class="card">
+          <div class="card-icon"><i class="fas fa-bolt"></i></div>
+          <h3>Fast Service</h3>
+          <p>Quick turnaround on all documents and printing work without compromising quality.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background:linear-gradient(135deg,#E65100,#FF9800)"><i class="fas fa-rupee-sign"></i></div>
+          <h3>Affordable Rates</h3>
+          <p>Transparent pricing with no hidden charges. Best rates in the area guaranteed.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background:linear-gradient(135deg,#1B5E20,#4CAF50)"><i class="fas fa-user-check"></i></div>
+          <h3>Expert Staff</h3>
+          <p>Trained professionals with years of experience in government services and IT.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background:linear-gradient(135deg,#880E4F,#E91E63)"><i class="fas fa-shield-alt"></i></div>
+          <h3>100% Reliable</h3>
+          <p>We ensure data privacy and secure handling of all your important documents.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section style="background:linear-gradient(135deg,#0D47A1,#1565C0);padding:48px 16px;text-align:center;">
+    <h2 style="color:white;font-family:'Rajdhani',sans-serif;font-size:clamp(22px,5vw,34px);font-weight:700;margin-bottom:10px;">Need Help? We're Just a Call Away!</h2>
+    <p style="color:rgba(255,255,255,0.75);font-size:14px;margin-bottom:24px;">Contact us via WhatsApp or call for instant support</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="tel:+919999999999" class="btn btn-accent"><i class="fas fa-phone"></i> Call Now</a>
+      <button class="btn btn-outline" onclick="openWA()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 <strong>AKASH E SERVICE</strong> â€” All Rights Reserved<br>
+    <small>Near Main Market, Your City | +91 99999 99999</small>
+  </footer>
+</div>
+
+<script src="data.js"></script>
+<script>
+  function toggleNav() {
+    document.getElementById('drawer').classList.toggle('open');
+    document.getElementById('ham').classList.toggle('open');
+  }
+  function closeNav() {
+    document.getElementById('drawer').classList.remove('open');
+    document.getElementById('ham').classList.remove('open');
+  }
+  document.addEventListener('click', e => {
+    const d = document.getElementById('drawer');
+    const h = document.getElementById('ham');
+    if (d.classList.contains('open') && !d.contains(e.target) && !h.contains(e.target)) closeNav();
+  });
+
+  // Render quick services (first 9)
+  const qs = document.getElementById('quickServices');
+  SERVICES.slice(0, 9).forEach(s => {
+    qs.innerHTML += `
+      <a href="booking.html" class="service-chip">
+        <i class="fas ${s.icon}"></i>
+        <span>${s.name}</span>
+      </a>`;
+  });
+
+  // Render featured courses
+  const fc = document.getElementById('featuredCourses');
+  const courses = get('aes_courses', DEFAULT_COURSES);
+  courses.slice(0, 4).forEach(c => {
+    fc.innerHTML += `
+      <div class="card">
+        <div style="font-size:26px;margin-bottom:12px;">${c.icon}</div>
+        <h3>${c.name}</h3>
+        <p>${c.syllabus.split(',').slice(0,3).join(', ')}...</p>
+        <div class="card-price">â‚¹${Number(c.fees).toLocaleString()}</div>
+        <div class="card-meta"><i class="fas fa-clock"></i> ${c.duration}</div>
+        <a href="courses.html" class="btn btn-primary" style="margin-top:14px;font-size:13px;padding:9px 18px;"><i class="fas fa-graduation-cap"></i> Enroll Now</a>
+      </div>`;
+  });
+</script>
+</body>
+</html>
+

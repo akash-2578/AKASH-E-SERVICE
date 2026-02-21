@@ -1,0 +1,204 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>About â€” AKASH E SERVICE</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon"><i class="fas fa-laptop"></i></div>
+    <div class="nav-logo-text"><strong>AKASH E SERVICE</strong><small>Computer Service Center</small></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="services.html">Services</a>
+    <a href="booking.html">Book Service</a>
+    <a href="courses.html">Courses</a>
+    <a href="contact.html">Contact</a>
+    <a href="about.html" class="active">About</a>
+  </div>
+  <div class="nav-right">
+    <button class="btn-wa-nav" onclick="openWA()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+    <a href="admin-login.html" class="btn-admin-nav">Admin</a>
+  </div>
+  <button class="hamburger" id="ham" onclick="toggleNav()"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-drawer" id="drawer">
+  <a href="index.html"><i class="fas fa-home"></i> Home</a>
+  <a href="services.html"><i class="fas fa-tools"></i> Services</a>
+  <a href="booking.html"><i class="fas fa-calendar-check"></i> Book Service</a>
+  <a href="courses.html"><i class="fas fa-graduation-cap"></i> Courses</a>
+  <a href="contact.html"><i class="fas fa-phone"></i> Contact</a>
+  <a href="about.html"><i class="fas fa-user"></i> About</a>
+  <div class="mobile-drawer-divider"></div>
+  <a href="admin-login.html"><i class="fas fa-lock"></i> Admin Panel</a>
+</div>
+<div class="floating-btns">
+  <a href="tel:+919999999999" class="float-btn fab-call"><i class="fas fa-phone"></i></a>
+  <a href="#" class="float-btn fab-wa" onclick="openWA()"><i class="fab fa-whatsapp"></i></a>
+</div>
+
+<div class="page-wrap">
+  <!-- About Hero -->
+  <div class="about-top">
+    <div class="about-avatar"></div>
+    <div class="about-name">Akash</div>
+    <div class="about-role">Founder & Owner â€” AKASH E SERVICE</div>
+    <div class="skill-tags">
+      <span class="skill-tag">Computer Expert</span>
+      <span class="skill-tag">Govt. Services</span>
+      <span class="skill-tag">Computer Trainer</span>
+      <span class="skill-tag">Digital Services</span>
+      <span class="skill-tag">Entrepreneur</span>
+    </div>
+  </div>
+
+  <!-- About Details -->
+  <section class="section">
+    <div class="section-inner" style="max-width:900px;">
+
+      <!-- Intro -->
+      <div style="background:var(--card);border-radius:var(--radius);padding:22px 20px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:24px;">
+        <div class="section-tag">MY STORY</div>
+        <h2 style="font-family:'Rajdhani',sans-serif;font-size:clamp(20px,4vw,28px);font-weight:700;margin:8px 0 12px;">Helping People Go Digital Since 2018</h2>
+        <p style="color:var(--text-muted);line-height:1.75;font-size:14px;">
+          Hello! I'm Akash, the founder of <strong>AKASH E SERVICE</strong>. I started this center with a simple mission â€”
+          to make technology and government digital services accessible and affordable for everyone in our community.
+          From helping senior citizens apply for Aadhaar to training youth in computer skills for job readiness,
+          we do it all with care and commitment.
+        </p>
+        <p style="color:var(--text-muted);line-height:1.75;font-size:14px;margin-top:10px;">
+          Over the years, I have served more than 5,000 customers and trained over 500 students. I believe that digital literacy
+          is the foundation of a better future, and I work every day to bring that future closer for the people of this area.
+        </p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:18px;">
+          <a href="tel:+919999999999" class="btn btn-primary"><i class="fas fa-phone"></i> Call Me</a>
+          <button class="btn btn-wa" onclick="openWA()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+        </div>
+      </div>
+
+      <!-- Two columns: contact info + timeline -->
+      <div style="display:grid;grid-template-columns:1fr;gap:20px;">
+
+        <!-- Contact Details -->
+        <div>
+          <h3 style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;margin-bottom:14px;">Contact Details</h3>
+          <div class="info-card">
+            <div class="info-card-label">CENTER NAME</div>
+            <div class="info-card-val">AKASH E SERVICE</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">OWNER / FOUNDER</div>
+            <div class="info-card-val">Akash [Your Full Name]</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">PHONE NUMBER</div>
+            <a href="tel:+919999999999" class="info-card-val" style="text-decoration:none;color:var(--primary);">+91 99999 99999</a>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">WHATSAPP</div>
+            <a href="#" onclick="openWA()" class="info-card-val" style="text-decoration:none;color:#25D366;">+91 99999 99999</a>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">EMAIL ADDRESS</div>
+            <div class="info-card-val">akasheservice@gmail.com</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">ADDRESS</div>
+            <div class="info-card-val" style="font-size:13px;line-height:1.5;">Near Main Market, Your City, State â€” 123456</div>
+          </div>
+          <div class="info-card">
+            <div class="info-card-label">WORKING HOURS</div>
+            <div class="info-card-val" style="font-size:13px;">Monday to Sat: 9:00 AM - 7:00 PM &nbsp;|&nbsp; Sunday: Closed</div>
+          </div>
+        </div>
+
+        <!-- Achievements -->
+        <div>
+          <h3 style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;margin-bottom:14px;">Key Achievements</h3>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:20px;">
+            <div style="background:linear-gradient(135deg,var(--primary),var(--primary-light));border-radius:12px;padding:18px 16px;color:white;text-align:center;">
+              <div style="font-family:'Rajdhani',sans-serif;font-size:30px;font-weight:700;">5000+</div>
+              <div style="font-size:11px;opacity:0.8;font-weight:600;margin-top:2px;">Customers Served</div>
+            </div>
+            <div style="background:linear-gradient(135deg,#00838F,var(--accent));border-radius:12px;padding:18px 16px;color:white;text-align:center;">
+              <div style="font-family:'Rajdhani',sans-serif;font-size:30px;font-weight:700;">500+</div>
+              <div style="font-size:11px;opacity:0.8;font-weight:600;margin-top:2px;">Students Trained</div>
+            </div>
+            <div style="background:linear-gradient(135deg,#1B5E20,#4CAF50);border-radius:12px;padding:18px 16px;color:white;text-align:center;">
+              <div style="font-family:'Rajdhani',sans-serif;font-size:30px;font-weight:700;">6+</div>
+              <div style="font-size:11px;opacity:0.8;font-weight:600;margin-top:2px;">Years Experience</div>
+            </div>
+            <div style="background:linear-gradient(135deg,#E65100,#FF9800);border-radius:12px;padding:18px 16px;color:white;text-align:center;">
+              <div style="font-family:'Rajdhani',sans-serif;font-size:30px;font-weight:700;">20+</div>
+              <div style="font-size:11px;opacity:0.8;font-weight:600;margin-top:2px;">Services Offered</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Timeline -->
+        <div>
+          <h3 style="font-family:'Rajdhani',sans-serif;font-size:20px;font-weight:700;margin-bottom:14px;">My Journey</h3>
+          <div class="timeline">
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-box">
+                <div class="tl-year">2018</div>
+                <div class="tl-title">Started AKASH E SERVICE</div>
+                <div class="tl-desc">Opened the center with xerox, printing, and basic computer services with a small setup.</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-box">
+                <div class="tl-year">2019</div>
+                <div class="tl-title">Added Government Digital Services</div>
+                <div class="tl-desc">Started PAN Card, Aadhaar, Voter ID, passport, and certificate application services.</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-box">
+                <div class="tl-year">2020</div>
+                <div class="tl-title">Launched Computer Training</div>
+                <div class="tl-desc">Started formal computer courses for students, job seekers, and homemakers.</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-box">
+                <div class="tl-year">2022</div>
+                <div class="tl-title">Expanded Course Offerings</div>
+                <div class="tl-desc">Added Tally Prime, Web Design, DTP, and Advanced Excel courses with certification.</div>
+              </div>
+            </div>
+            <div class="tl-item">
+              <div class="tl-dot"></div>
+              <div class="tl-box">
+                <div class="tl-year">2025</div>
+                <div class="tl-title">Digital Platform Launched</div>
+                <div class="tl-desc">Launched online booking, student management, and certificate generation system.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer>&copy; 2025 <strong>AKASH E SERVICE</strong> â€” All Rights Reserved</footer>
+</div>
+
+<script src="data.js"></script>
+<script>
+  function toggleNav() { document.getElementById('drawer').classList.toggle('open'); document.getElementById('ham').classList.toggle('open'); }
+  document.addEventListener('click', e => { const d=document.getElementById('drawer'),h=document.getElementById('ham'); if(d.classList.contains('open')&&!d.contains(e.target)&&!h.contains(e.target)){d.classList.remove('open');h.classList.remove('open');} });
+</script>
+</body>
+</html>
+

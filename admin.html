@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Admin Panel — AKASH E SERVICE</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style>
+  .admin-bottom-nav { display: flex; }
+  @media(min-width:768px){ .admin-bottom-nav { display:none !important; } .admin-sidebar { display:block !important; } }
+  @media(max-width:767px){ .admin-sidebar { display:none !important; } .admin-main { padding-bottom:70px; } }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon"><i class="fas fa-laptop"></i></div>
+    <div class="nav-logo-text"><strong>AKASH E SERVICE</strong><small>Admin Panel</small></div>
+  </a>
+  <div class="nav-right" style="margin-left:auto;">
+    <a href="index.html" class="btn-admin-nav" style="font-size:12px;"><i class="fas fa-globe"></i> Website</a>
+    <button class="btn-admin-nav" onclick="logout()" style="font-size:12px;"><i class="fas fa-sign-out-alt"></i> Logout</button>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <div class="admin-sidebar">
+      <div class="admin-sidebar-head">
+        <strong>Admin Panel</strong>
+        <small>AKASH E SERVICE</small>
+      </div>
+      <span class="sidebar-group-label">MANAGEMENT</span>
+      <button class="sidebar-link active" id="sl-dashboard" onclick="tab('dashboard')"><i class="fas fa-chart-pie"></i> Dashboard</button>
+      <button class="sidebar-link" id="sl-bookings"  onclick="tab('bookings')"><i class="fas fa-calendar-alt"></i> Bookings</button>
+      <button class="sidebar-link" id="sl-students"  onclick="tab('students')"><i class="fas fa-users"></i> Students</button>
+      <button class="sidebar-link" id="sl-courses"   onclick="tab('courses')"><i class="fas fa-book"></i> Courses</button>
+      <button class="sidebar-link" id="sl-attendance" onclick="tab('attendance')"><i class="fas fa-clipboard-check"></i> Attendance</button>
+      <button class="sidebar-link" id="sl-certificate" onclick="tab('certificate')"><i class="fas fa-certificate"></i> Certificates</button>
+      <button class="sidebar-link" id="sl-messages"  onclick="tab('messages')"><i class="fas fa-envelope"></i> Messages</button>
+      <div class="sidebar-divider"></div>
+      <button class="sidebar-link" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div class="admin-main">
+      <div class="admin-content">
+
+        <!-- ===== DASHBOARD ===== -->
+        <div class="admin-page active" id="pg-dashboard">
+          <div class="admin-page-header">
+            <div>
+              <div class="admin-page-title">Dashboard</div>
+              <div class="admin-page-sub" id="now-time"></div>
+            </div>
+            <a href="index.html" class="btn btn-outline-blue btn-sm"><i class="fas fa-globe"></i> View Site</a>
+          </div>
+          <div class="stats-row" id="dash-stats"></div>
+          <div class="table-card">
+            <div class="table-card-header">
+              <span class="table-card-title">Recent Bookings</span>
+              <button class="btn btn-sm btn-primary" onclick="tab('bookings')">View All</button>
+            </div>
+            <div class="table-scroll"><table id="dash-tbl"></table></div>
+          </div>
+        </div>
+
+        <!-- ===== BOOKINGS ===== -->
+        <div class="admin-page" id="pg-bookings">
+          <div class="admin-page-header">
+            <div>
+              <div class="admin-page-title">Bookings</div>
+              <div class="admin-page-sub">Manage all service requests</div>
+            </div>
+          </div>
+          <div class="filter-bar" style="margin-bottom:14px;">
+            <input type="date" class="input" id="f-date" onchange="renderBookings()">
+            <select class="input" id="f-status" onchange="renderBookings()">
+              <option value="">All Status</option>
+              <option>Pending</option><option>Confirmed</option>
+              <option>Completed</option><option>Rejected</option>
+            </select>
+            <select class="input" id="f-service" onchange="renderBookings()">
+              <option value="">All Services</option>
+            </select>
+            <button class="btn btn-sm btn-outline-blue" onclick="document.getElementById('f-date').value='';document.getElementById('f-status').value='';document.getElementById('f-service').value='';renderBookings()">
+              <i class="fas fa-times"></i> Clear
+            </button>
+          </div>
+          <div class="table-card">
+            <div class="table-scroll"><table id="bookings-tbl"></table></div>
+          </div>
+        </div>
+
+        <!-- ===== STUDENTS ===== -->
+        <div class="admin-page" id="pg-students">
+          <div class="admin-page-header">
+            <div>
+              <div class="admin-page-title">Students</div>
+              <div class="admin-page-sub">Manage enrolled students</div>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="openStudentModal()"><i class="fas fa-plus"></i> Add Student</button>
+          </div>
+          <div class="table-card">
+            <div class="table-scroll"><table id="students-tbl"></table></div>
+          </div>
+        </div>
+
+        <!-- ===== COURSES ===== -->
+        <div class="admin-page" id="pg-courses">
+          <div class="admin-page-header">
+            <div>
+              <div class="admin-page-title">Courses</div>
+              <div class="admin-page-sub">Manage course offerings</div>
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="openCourseModal()"><i class="fas fa-plus"></i> Add Course</button>
+          </div>
+          <div class="table-card">
+            <div class="table-scroll"><table id="courses-tbl"></table></div>
+          </div>
+        </div>
+
+        <!-- ===== ATTENDANCE ===== -->
+        <div class="admin-page" id="pg-attendance">
+          <div class="admin-page-header">
+            <div>
+              <div class="admin-page-title">Attendance</div>
+              <div class="admin-page-sub">Mark and track student attendance</div>
+            </div>
+          </div>
+          <div class="table-card" style="padding:18px;margin-bottom:16px;">
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:16px;">
+              <div class="form-group" style="margin:0;">
+                <label>Student</label>
+                <select class="input" id="att-student" onchange="renderAttCal()"></select>
+              </div>
+              <div class="form-group" style="margin:0;">
+                <label>Month</label>
+                <input type="month" class="input" id="att-month" onchange="renderAttCal()">
+              </div>
+              <div class="form-group" style="margin:0;display:flex;align-items:flex-end;">
+                <button class="btn btn-primary btn-full" onclick="saveAtt()"><i class="fas fa-save"></i> Save</button>
+              </div>
+            </div>
+            <div class="att-cal-wrap">
+              <div class="att-grid" id="att-grid"></div>
+            </div>
+            <div class="att-legend" style="margin-top:12px;">
+              <span><span class="att-dot" style="background:#A5D6A7;"></span> Present</span>
+              <span><span class="att-dot" style="background:#FFCDD2;"></span> Absent</span>
+              <span><span class="att-dot" style="background:#eee;"></span> Holiday/Empty</span>
+            </div>
+            <div id="att-stats" style="margin-top:10px;font-size:13px;color:var(--text-muted);font-weight:600;"></div>
+          </div>
+          <!-- Progress table -->
+          <div class="table-card">
+            <div class="table-card-header"><span class="table-card-title">Student Progress</span></div>
+            <div class="table-scroll"><table id="progress-tbl"></table></div>
+          </div>
+        </div>
+
+        <!-- ===== CERTIFICATE ===== -->
+        <div class="admin-page" id="pg-certificate">
+          <div class="admin-page-header">
+            <div>
+              <div class="admin-page-title">Certificate Generator</div>
+              <div class="admin-page-sub">Create and export certificates as PDF</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr;gap:20px;">
+            <div class="form-box" style="margin:0;max-width:100%;">
+              <h2 style="font-size:18px;">Certificate Details</h2>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Student Name <span class="req">*</span></label>
+                  <input type="text" class="input" id="c-name" placeholder="Full name of student">
+                </div>
+                <div class="form-group">
+                  <label>Course Name <span class="req">*</span></label>
+                  <input type="text" class="input" id="c-course" placeholder="e.g. Basic Computer Course">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Duration</label>
+                  <input type="text" class="input" id="c-duration" placeholder="e.g. 3 Months">
+                </div>
+                <div class="form-group">
+                  <label>Completion Date</label>
+                  <input type="date" class="input" id="c-date">
+                </div>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label>Certificate ID</label>
+                  <input type="text" class="input" id="c-id" placeholder="Auto-generated">
+                </div>
+                <div class="form-group">
+                  <label>Grade</label>
+                  <select class="input" id="c-grade">
+                    <option>A+ (Outstanding)</option>
+                    <option>A (Excellent)</option>
+                    <option>B+ (Very Good)</option>
+                    <option>B (Good)</option>
+                    <option>C (Satisfactory)</option>
+                  </select>
+                </div>
+              </div>
+              <button class="btn btn-primary btn-full" onclick="previewCert()"><i class="fas fa-eye"></i> Generate Preview</button>
+            </div>
+            <div id="cert-preview"></div>
+          </div>
+        </div>
+
+        <!-- ===== MESSAGES ===== -->
+        <div class="admin-page" id="pg-messages">
+          <div class="admin-page-header">
+            <div>
+              <div class="admin-page-title">Messages</div>
+              <div class="admin-page-sub">Contact form submissions</div>
+            </div>
+          </div>
+          <div class="table-card">
+            <div class="table-scroll"><table id="messages-tbl"></table></div>
+          </div>
+        </div>
+
+      </div><!-- /admin-content -->
+    </div><!-- /admin-main -->
+  </div><!-- /admin-layout -->
+</div>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="admin-bottom-nav">
+  <button class="abn-link active" id="abn-dashboard" onclick="tab('dashboard')"><i class="fas fa-chart-pie"></i>Home</button>
+  <button class="abn-link" id="abn-bookings"  onclick="tab('bookings')"><i class="fas fa-calendar-alt"></i>Bookings</button>
+  <button class="abn-link" id="abn-students"  onclick="tab('students')"><i class="fas fa-users"></i>Students</button>
+  <button class="abn-link" id="abn-courses"   onclick="tab('courses')"><i class="fas fa-book"></i>Courses</button>
+  <button class="abn-link" id="abn-certificate" onclick="tab('certificate')"><i class="fas fa-certificate"></i>Certs</button>
+</nav>
+
+<!-- STUDENT MODAL -->
+<div class="modal-overlay" id="m-student">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('m-student')"><i class="fas fa-times"></i></button>
+    <div class="modal-title" id="sm-title">Add Student</div>
+    <input type="hidden" id="sm-id">
+    <div class="form-row">
+      <div class="form-group"><label>Full Name <span class="req">*</span></label><input type="text" class="input" id="sm-name" placeholder="Full name"></div>
+      <div class="form-group"><label>Phone <span class="req">*</span></label><input type="tel" class="input" id="sm-phone" placeholder="+91 XXXXX"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Email</label><input type="email" class="input" id="sm-email" placeholder="email@example.com"></div>
+      <div class="form-group"><label>Age</label><input type="number" class="input" id="sm-age" placeholder="Age" min="10" max="70"></div>
+    </div>
+    <div class="form-group"><label>Course</label><select class="input" id="sm-course"></select></div>
+    <div class="form-row">
+      <div class="form-group"><label>Enrollment Date</label><input type="date" class="input" id="sm-enroll"></div>
+      <div class="form-group"><label>Fees Paid (₹)</label><input type="number" class="input" id="sm-fees" placeholder="Amount"></div>
+    </div>
+    <div class="form-group"><label>Progress (%)</label><input type="number" class="input" id="sm-progress" min="0" max="100" placeholder="0–100"></div>
+    <div class="form-group"><label>Status</label>
+      <select class="input" id="sm-status"><option>Active</option><option>Completed</option><option>Dropped</option></select>
+    </div>
+    <button class="btn btn-primary btn-full" onclick="saveStudent()"><i class="fas fa-save"></i> Save Student</button>
+  </div>
+</div>
+
+<!-- COURSE MODAL -->
+<div class="modal-overlay" id="m-course">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('m-course')"><i class="fas fa-times"></i></button>
+    <div class="modal-title" id="cm-title">Add Course</div>
+    <input type="hidden" id="cm-id">
+    <div class="form-group"><label>Course Name <span class="req">*</span></label><input type="text" class="input" id="cm-name" placeholder="e.g. Basic Computer"></div>
+    <div class="form-row">
+      <div class="form-group"><label>Duration</label><input type="text" class="input" id="cm-duration" placeholder="e.g. 3 Months"></div>
+      <div class="form-group"><label>Fees (₹)</label><input type="number" class="input" id="cm-fees" placeholder="e.g. 2000"></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Days/Week</label>
+        <select class="input" id="cm-days"><option value="3">3</option><option value="5">5</option><option value="6">6</option></select>
+      </div>
+      <div class="form-group"><label>Icon (emoji)</label><input type="text" class="input" id="cm-icon" placeholder="💻"></div>
+    </div>
+    <div class="form-group"><label>Syllabus</label><textarea class="input" id="cm-syllabus" rows="3" placeholder="Topics covered..."></textarea></div>
+    <button class="btn btn-primary btn-full" onclick="saveCourse()"><i class="fas fa-save"></i> Save Course</button>
+  </div>
+</div>
+
+<!-- BOOKING VIEW MODAL -->
+<div class="modal-overlay" id="m-booking">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('m-booking')"><i class="fas fa-times"></i></button>
+    <div class="modal-title">Booking Details</div>
+    <div id="m-booking-body"></div>
+  </div>
+</div>
+
+<script src="data.js"></script>
+<script>
+// ---- AUTH CHECK ----
+if (!get('aes_admin', false)) window.location.href = 'admin-login.html';
+
+function logout() { set('aes_admin', false); window.location.href = 'admin-login.html'; }
+
+// ---- TAB SWITCHING ----
+const TABS = ['dashboard','bookings','students','courses','attendance','certificate','messages'];
+function tab(id) {
+  TABS.forEach(t => {
+    document.getElementById('pg-' + t)?.classList.remove('active');
+    document.getElementById('sl-' + t)?.classList.remove('active');
+    document.getElementById('abn-' + t)?.classList.remove('active');
+  });
+  document.getElementById('pg-' + id)?.classList.add('active');
+  document.getElementById('sl-' + id)?.classList.add('active');
+  document.getElementById('abn-' + id)?.classList.add('active');
+  // Load data for tab
+  if (id === 'dashboard')   renderDash();
+  if (id === 'bookings')    { populateServiceFilter(); renderBookings(); }
+  if (id === 'students')    renderStudents();
+  if (id === 'courses')     renderCourses();
+  if (id === 'attendance')  { populateAttStudents(); renderAttCal(); }
+  if (id === 'messages')    renderMessages();
+  if (id === 'certificate') { document.getElementById('c-date').value = todayStr(); document.getElementById('c-id').value = newCertId(); }
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ---- DASHBOARD ----
+function renderDash() {
+  const bookings = get('aes_bookings', []);
+  const students = get('aes_students', []);
+  const msgs = get('aes_messages', []);
+  const pending = bookings.filter(b => b.status === 'Pending').length;
+  const completed = bookings.filter(b => b.status === 'Completed').length;
+
+  document.getElementById('now-time').textContent = 'Last updated: ' + new Date().toLocaleString('en-IN');
+  document.getElementById('dash-stats').innerHTML = `
+    <div class="stat-card"><div class="stat-icon si-blue"><i class="fas fa-calendar-alt"></i></div><div><div class="stat-val">${bookings.length}</div><div class="stat-lbl">Total Bookings</div></div></div>
+    <div class="stat-card"><div class="stat-icon si-orange"><i class="fas fa-clock"></i></div><div><div class="stat-val">${pending}</div><div class="stat-lbl">Pending</div></div></div>
+    <div class="stat-card"><div class="stat-icon si-green"><i class="fas fa-check-circle"></i></div><div><div class="stat-val">${completed}</div><div class="stat-lbl">Completed</div></div></div>
+    <div class="stat-card"><div class="stat-icon si-cyan"><i class="fas fa-users"></i></div><div><div class="stat-val">${students.length}</div><div class="stat-lbl">Students</div></div></div>
+  `;
+  const recent = [...bookings].reverse().slice(0, 6);
+  document.getElementById('dash-tbl').innerHTML = `
+    <thead><tr><th>NAME</th><th>SERVICE</th><th>DATE</th><th>STATUS</th></tr></thead>
+    <tbody>${recent.length ? recent.map(b => `
+      <tr>
+        <td><div class="td-name">${b.name}</div><div class="td-sub">${b.phone}</div></td>
+        <td>${b.service}</td>
+        <td>${b.date}</td>
+        <td><span class="badge badge-${b.status.toLowerCase()}">${b.status}</span></td>
+      </tr>`).join('') : '<tr><td colspan="4" style="text-align:center;padding:20px;color:var(--text-muted);">No bookings yet</td></tr>'}
+    </tbody>`;
+}
+
+// ---- BOOKINGS ----
+function populateServiceFilter() {
+  const bookings = get('aes_bookings', []);
+  const sel = document.getElementById('f-service');
+  const svcs = [...new Set(bookings.map(b => b.service))];
+  sel.innerHTML = '<option value="">All Services</option>' + svcs.map(s => `<option>${s}</option>`).join('');
+}
+
+function renderBookings() {
+  let data = get('aes_bookings', []);
+  const date = document.getElementById('f-date').value;
+  const status = document.getElementById('f-status').value;
+  const svc = document.getElementById('f-service').value;
+  if (date)   data = data.filter(b => b.date === date);
+  if (status) data = data.filter(b => b.status === status);
+  if (svc)    data = data.filter(b => b.service === svc);
+  data = [...data].reverse();
+
+  document.getElementById('bookings-tbl').innerHTML = `
+    <thead><tr><th>#</th><th>NAME</th><th>SERVICE</th><th>DATE / TIME</th><th>STATUS</th><th>ACTIONS</th></tr></thead>
+    <tbody>${data.length ? data.map((b, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td><div class="td-name">${b.name}</div><div class="td-sub"><a href="tel:${b.phone}">${b.phone}</a></div></td>
+        <td>${b.service}</td>
+        <td><div>${b.date}</div><div class="td-sub">${b.time}</div></td>
+        <td><span class="badge badge-${b.status.toLowerCase()}">${b.status}</span></td>
+        <td>
+          <div class="action-group">
+            ${b.status === 'Pending' ? `
+              <button class="btn btn-xs btn-act-accept" onclick="updateBooking(${b.id},'Confirmed')"><i class="fas fa-check"></i> Accept</button>
+              <button class="btn btn-xs btn-act-reject" onclick="updateBooking(${b.id},'Rejected')"><i class="fas fa-times"></i> Reject</button>
+            ` : ''}
+            ${b.status === 'Confirmed' ? `<button class="btn btn-xs btn-act-done" onclick="updateBooking(${b.id},'Completed')"><i class="fas fa-flag"></i> Done</button>` : ''}
+            <button class="btn btn-xs btn-act-view" onclick="viewBooking(${b.id})"><i class="fas fa-eye"></i></button>
+            <button class="btn btn-xs btn-act-del"  onclick="delBooking(${b.id})"><i class="fas fa-trash"></i></button>
+          </div>
+        </td>
+      </tr>`).join('') : '<tr><td colspan="6" style="text-align:center;padding:20px;color:var(--text-muted);">No bookings found</td></tr>'}
+    </tbody>`;
+}
+
+function updateBooking(id, status) {
+  const list = get('aes_bookings', []);
+  const b = list.find(x => x.id === id);
+  if (b) { b.status = status; set('aes_bookings', list); renderBookings(); }
+}
+
+function delBooking(id) {
+  if (!confirm('Delete this booking?')) return;
+  set('aes_bookings', get('aes_bookings', []).filter(b => b.id !== id));
+  renderBookings();
+}
+
+function viewBooking(id) {
+  const b = get('aes_bookings', []).find(x => x.id === id);
+  if (!b) return;
+  const fields = [['Name', b.name], ['Phone', `<a href="tel:${b.phone}">${b.phone}</a>`],
+    ['Email', b.email || '—'], ['Service', b.service], ['Date', b.date], ['Time', b.time],
+    ['Status', `<span class="badge badge-${b.status.toLowerCase()}">${b.status}</span>`],
+    ['Notes', b.notes || '—'], ['Booked On', b.createdAt]];
+  document.getElementById('m-booking-body').innerHTML = `
+    <table style="width:100%;border-collapse:collapse;font-size:13px;">
+      ${fields.map(([k, v]) => `
+        <tr style="border-bottom:1px solid var(--border);">
+          <td style="padding:9px 12px;font-size:11px;font-weight:700;color:var(--text-muted);width:100px;">${k.toUpperCase()}</td>
+          <td style="padding:9px 12px;font-weight:600;">${v}</td>
+        </tr>`).join('')}
+    </table>
+    <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap;">
+      <a href="tel:${b.phone}" class="btn btn-primary btn-sm"><i class="fas fa-phone"></i> Call</a>
+      <button class="btn btn-wa btn-sm" onclick="openWA('${b.phone}')"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+    </div>`;
+  openModal('m-booking');
+}
+
+// ---- STUDENTS ----
+function renderStudents() {
+  const students = get('aes_students', []);
+  document.getElementById('students-tbl').innerHTML = `
+    <thead><tr><th>#</th><th>NAME</th><th>COURSE</th><th>ENROLLED</th><th>FEES</th><th>PROGRESS</th><th>STATUS</th><th>ACTIONS</th></tr></thead>
+    <tbody>${students.length ? students.map((s, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td><div class="td-name">${s.name}</div><div class="td-sub"><a href="tel:${s.phone}">${s.phone}</a></div></td>
+        <td>${s.course || '—'}</td>
+        <td>${s.enrollDate || '—'}</td>
+        <td>${s.fees ? '₹' + Number(s.fees).toLocaleString() : '—'}</td>
+        <td style="min-width:90px;">
+          <div style="font-size:12px;margin-bottom:3px;">${s.progress || 0}%</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:${s.progress || 0}%"></div></div>
+        </td>
+        <td><span class="badge badge-${(s.status || 'active').toLowerCase()}">${s.status || 'Active'}</span></td>
+        <td>
+          <div class="action-group">
+            <button class="btn btn-xs btn-act-edit" onclick="editStudent(${s.id})"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-xs btn-act-del"  onclick="delStudent(${s.id})"><i class="fas fa-trash"></i></button>
+          </div>
+        </td>
+      </tr>`).join('') : '<tr><td colspan="8" style="text-align:center;padding:20px;color:var(--text-muted);">No students added yet</td></tr>'}
+    </tbody>`;
+}
+
+function openStudentModal(s) {
+  const courses = get('aes_courses', DEFAULT_COURSES);
+  const opts = courses.map(c => `<option value="${c.name}" ${s && s.course === c.name ? 'selected' : ''}>${c.name}</option>`).join('');
+  document.getElementById('sm-course').innerHTML = '<option value="">-- Select Course --</option>' + opts;
+  if (s) {
+    document.getElementById('sm-title').textContent = 'Edit Student';
+    document.getElementById('sm-id').value = s.id;
+    document.getElementById('sm-name').value = s.name;
+    document.getElementById('sm-phone').value = s.phone;
+    document.getElementById('sm-email').value = s.email || '';
+    document.getElementById('sm-age').value = s.age || '';
+    document.getElementById('sm-enroll').value = s.enrollDate || '';
+    document.getElementById('sm-fees').value = s.fees || '';
+    document.getElementById('sm-progress').value = s.progress || 0;
+    document.getElementById('sm-status').value = s.status || 'Active';
+  } else {
+    document.getElementById('sm-title').textContent = 'Add Student';
+    document.getElementById('sm-id').value = '';
+    ['sm-name','sm-phone','sm-email','sm-age','sm-enroll','sm-fees'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('sm-progress').value = 0;
+    document.getElementById('sm-status').value = 'Active';
+    document.getElementById('sm-enroll').value = todayStr();
+  }
+  openModal('m-student');
+}
+
+function editStudent(id) {
+  const s = get('aes_students', []).find(x => x.id === id);
+  if (s) openStudentModal(s);
+}
+
+function saveStudent() {
+  const id = document.getElementById('sm-id').value;
+  const name = document.getElementById('sm-name').value.trim();
+  const phone = document.getElementById('sm-phone').value.trim();
+  if (!name || !phone) { alert('Name and Phone are required.'); return; }
+  const s = {
+    id: id ? Number(id) : Date.now(),
+    name, phone,
+    email: document.getElementById('sm-email').value.trim(),
+    age: document.getElementById('sm-age').value,
+    course: document.getElementById('sm-course').value,
+    enrollDate: document.getElementById('sm-enroll').value,
+    fees: document.getElementById('sm-fees').value,
+    progress: Number(document.getElementById('sm-progress').value) || 0,
+    status: document.getElementById('sm-status').value,
+  };
+  let list = get('aes_students', []);
+  if (id) { const idx = list.findIndex(x => x.id === Number(id)); if (idx >= 0) list[idx] = s; }
+  else list.push(s);
+  set('aes_students', list);
+  closeModal('m-student');
+  renderStudents();
+}
+
+function delStudent(id) {
+  if (!confirm('Delete this student?')) return;
+  set('aes_students', get('aes_students', []).filter(s => s.id !== id));
+  renderStudents();
+}
+
+// ---- COURSES ----
+function renderCourses() {
+  const courses = get('aes_courses', DEFAULT_COURSES);
+  const students = get('aes_students', []);
+  document.getElementById('courses-tbl').innerHTML = `
+    <thead><tr><th>#</th><th>COURSE</th><th>DURATION</th><th>FEES</th><th>DAYS/WK</th><th>STUDENTS</th><th>ACTIONS</th></tr></thead>
+    <tbody>${courses.map((c, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td><span style="font-size:16px;margin-right:6px;">${c.icon || '📚'}</span><strong>${c.name}</strong></td>
+        <td>${c.duration}</td>
+        <td>₹${Number(c.fees).toLocaleString()}</td>
+        <td>${c.daysPerWeek || 3}</td>
+        <td>${students.filter(s => s.course === c.name).length}</td>
+        <td>
+          <div class="action-group">
+            <button class="btn btn-xs btn-act-edit" onclick="editCourse(${c.id})"><i class="fas fa-edit"></i></button>
+            <button class="btn btn-xs btn-act-del"  onclick="delCourse(${c.id})"><i class="fas fa-trash"></i></button>
+          </div>
+        </td>
+      </tr>`).join('')}
+    </tbody>`;
+}
+
+function openCourseModal(c) {
+  if (c) {
+    document.getElementById('cm-title').textContent = 'Edit Course';
+    document.getElementById('cm-id').value = c.id;
+    document.getElementById('cm-name').value = c.name;
+    document.getElementById('cm-duration').value = c.duration;
+    document.getElementById('cm-fees').value = c.fees;
+    document.getElementById('cm-days').value = c.daysPerWeek || 3;
+    document.getElementById('cm-icon').value = c.icon || '';
+    document.getElementById('cm-syllabus').value = c.syllabus;
+  } else {
+    document.getElementById('cm-title').textContent = 'Add Course';
+    document.getElementById('cm-id').value = '';
+    ['cm-name','cm-duration','cm-fees','cm-icon','cm-syllabus'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('cm-days').value = '3';
+  }
+  openModal('m-course');
+}
+
+function editCourse(id) {
+  const c = get('aes_courses', DEFAULT_COURSES).find(x => x.id === id);
+  if (c) openCourseModal(c);
+}
+
+function saveCourse() {
+  const id = document.getElementById('cm-id').value;
+  const name = document.getElementById('cm-name').value.trim();
+  if (!name) { alert('Course name is required.'); return; }
+  const c = {
+    id: id ? Number(id) : Date.now(),
+    name,
+    duration: document.getElementById('cm-duration').value,
+    fees: Number(document.getElementById('cm-fees').value) || 0,
+    daysPerWeek: Number(document.getElementById('cm-days').value),
+    icon: document.getElementById('cm-icon').value || '📚',
+    syllabus: document.getElementById('cm-syllabus').value,
+  };
+  let list = get('aes_courses', DEFAULT_COURSES);
+  if (id) { const idx = list.findIndex(x => x.id === Number(id)); if (idx >= 0) list[idx] = c; }
+  else list.push(c);
+  set('aes_courses', list);
+  closeModal('m-course');
+  renderCourses();
+}
+
+function delCourse(id) {
+  if (!confirm('Delete this course?')) return;
+  set('aes_courses', get('aes_courses', DEFAULT_COURSES).filter(c => c.id !== id));
+  renderCourses();
+}
+
+// ---- ATTENDANCE ----
+function populateAttStudents() {
+  const students = get('aes_students', []);
+  const sel = document.getElementById('att-student');
+  sel.innerHTML = '<option value="">-- Select Student --</option>' +
+    students.map(s => `<option value="${s.id}">${s.name} — ${s.course || 'No Course'}</option>`).join('');
+  if (!document.getElementById('att-month').value)
+    document.getElementById('att-month').value = new Date().toISOString().slice(0, 7);
+}
+
+function renderAttCal() {
+  const sid = document.getElementById('att-student').value;
+  const month = document.getElementById('att-month').value;
+  const grid = document.getElementById('att-grid');
+  if (!sid || !month) { grid.innerHTML = '<p style="color:var(--text-muted);font-size:13px;padding:8px;">Select a student and month above.</p>'; return; }
+
+  const [y, m] = month.split('-').map(Number);
+  const daysInMonth = new Date(y, m, 0).getDate();
+  const firstDay = new Date(y, m - 1, 1).getDay();
+  const key = `${sid}_${month}`;
+  const att = get('aes_attendance', {});
+  const data = att[key] || {};
+
+  let html = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map(d => `<div class="att-day-label">${d}</div>`).join('');
+  for (let i = 0; i < firstDay; i++) html += '<div></div>';
+  for (let d = 1; d <= daysInMonth; d++) {
+    const isSun = new Date(y, m - 1, d).getDay() === 0;
+    const state = data[d] || (isSun ? 'holiday' : '');
+    html += `<div class="att-cell ${state}" onclick="toggleAtt('${key}',${d})">${d}</div>`;
+  }
+  grid.innerHTML = html;
+  const p = Object.values(data).filter(v => v === 'present').length;
+  const a = Object.values(data).filter(v => v === 'absent').length;
+  document.getElementById('att-stats').textContent = `Present: ${p}  |  Absent: ${a}  |  Total Working Days: ${p + a}`;
+}
+
+function toggleAtt(key, day) {
+  const att = get('aes_attendance', {});
+  if (!att[key]) att[key] = {};
+  const cur = att[key][day] || '';
+  const next = cur === '' ? 'present' : cur === 'present' ? 'absent' : '';
+  if (next === '') delete att[key][day]; else att[key][day] = next;
+  set('aes_attendance', att);
+  renderAttCal();
+}
+
+function saveAtt() {
+  alert('Attendance saved!');
+  renderProgressTable();
+}
+
+function renderProgressTable() {
+  const students = get('aes_students', []);
+  document.getElementById('progress-tbl').innerHTML = `
+    <thead><tr><th>STUDENT</th><th>COURSE</th><th>PROGRESS</th><th>STATUS</th><th>ACTION</th></tr></thead>
+    <tbody>${students.length ? students.map(s => `
+      <tr>
+        <td><div class="td-name">${s.name}</div><div class="td-sub">${s.phone}</div></td>
+        <td>${s.course || '—'}</td>
+        <td style="min-width:100px;">
+          <div style="font-size:12px;margin-bottom:3px;">${s.progress || 0}%</div>
+          <div class="progress-bar"><div class="progress-fill" style="width:${s.progress || 0}%"></div></div>
+        </td>
+        <td><span class="badge badge-${(s.status || 'active').toLowerCase()}">${s.status || 'Active'}</span></td>
+        <td>
+          <button class="btn btn-xs btn-act-edit" onclick="quickProgress(${s.id})"><i class="fas fa-sliders-h"></i> Update</button>
+        </td>
+      </tr>`).join('') : '<tr><td colspan="5" style="text-align:center;padding:20px;color:var(--text-muted);">No students</td></tr>'}
+    </tbody>`;
+}
+
+function quickProgress(id) {
+  const list = get('aes_students', []);
+  const s = list.find(x => x.id === id);
+  if (!s) return;
+  const val = prompt(`Update progress for ${s.name} (0–100):`, s.progress || 0);
+  if (val !== null) {
+    s.progress = Math.min(100, Math.max(0, Number(val)));
+    set('aes_students', list);
+    renderStudents();
+    renderProgressTable();
+  }
+}
+
+// ---- CERTIFICATE ----
+function previewCert() {
+  const name = document.getElementById('c-name').value.trim();
+  const course = document.getElementById('c-course').value.trim();
+  if (!name || !course) { alert('Please enter Student Name and Course Name.'); return; }
+  const dur = document.getElementById('c-duration').value;
+  const date = document.getElementById('c-date').value;
+  const cid = document.getElementById('c-id').value || newCertId();
+  const grade = document.getElementById('c-grade').value;
+  document.getElementById('c-id').value = cid;
+  const fdate = date ? new Date(date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  document.getElementById('cert-preview').innerHTML = `
+    <div class="cert-box" id="cert-box">
+      <div class="cert-center-name">⚡ AKASH E SERVICE</div>
+      <div style="font-size:11px;color:var(--text-muted);letter-spacing:1.5px;margin-bottom:10px;">Computer Service Center & Training Institute</div>
+      <hr style="border:none;border-top:1px solid var(--border);margin:14px 0;">
+      <div class="cert-cert-of">CERTIFICATE OF COMPLETION</div>
+      <div style="font-size:13px;color:var(--text-muted);margin-bottom:8px;">This is to proudly certify that</div>
+      <div class="cert-student-name">${name}</div>
+      <div class="cert-body-text">
+        has successfully completed the course<br>
+        <span class="cert-course-name">${course}</span><br>
+        with a duration of <strong>${dur || '—'}</strong> and awarded grade <strong>${grade}</strong>
+      </div>
+      <div style="font-size:13px;color:var(--text-muted);">Date of Completion: <strong>${fdate}</strong></div>
+      <div class="cert-sig-row">
+        <div class="cert-sig">
+          <div class="cert-sig-line"></div>
+          <div class="cert-sig-name">Akash [Your Name]</div>
+          <div class="cert-sig-role">Director, AKASH E SERVICE</div>
+        </div>
+        <div style="font-size:36px;">🏅</div>
+        <div class="cert-sig">
+          <div class="cert-sig-line"></div>
+          <div class="cert-sig-name">Examiner</div>
+          <div class="cert-sig-role">AKASH E SERVICE</div>
+        </div>
+      </div>
+      <div class="cert-serial">Certificate ID: ${cid} &nbsp;|&nbsp; Issued by: AKASH E SERVICE</div>
+    </div>
+    <div style="display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap;">
+      <button class="btn btn-primary" onclick="exportPDF()"><i class="fas fa-file-pdf"></i> Export PDF</button>
+      <button class="btn btn-outline-blue" onclick="window.print()"><i class="fas fa-print"></i> Print</button>
+    </div>`;
+}
+
+function exportPDF() {
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF('l', 'mm', 'a4');
+  const W = 297, H = 210;
+  doc.setFillColor(240, 244, 255);
+  doc.rect(0, 0, W, H, 'F');
+  doc.setDrawColor(21, 101, 192); doc.setLineWidth(3); doc.rect(8, 8, W-16, H-16);
+  doc.setDrawColor(0, 188, 212); doc.setLineWidth(1); doc.rect(12, 12, W-24, H-24);
+
+  const name = document.getElementById('c-name').value;
+  const course = document.getElementById('c-course').value;
+  const dur = document.getElementById('c-duration').value;
+  const date = document.getElementById('c-date').value;
+  const cid = document.getElementById('c-id').value;
+  const grade = document.getElementById('c-grade').value;
+  const fdate = date ? new Date(date).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' }) : new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' });
+
+  doc.setFontSize(20); doc.setTextColor(21, 101, 192); doc.setFont('helvetica','bold');
+  doc.text('AKASH E SERVICE', W/2, 30, { align: 'center' });
+  doc.setFontSize(9); doc.setTextColor(100,100,100); doc.setFont('helvetica','normal');
+  doc.text('Computer Service Center & Training Institute', W/2, 38, { align: 'center' });
+  doc.setLineWidth(0.3); doc.setDrawColor(200,200,220); doc.line(40, 42, W-40, 42);
+  doc.setFontSize(13); doc.setTextColor(80,80,80); doc.setFont('helvetica','bold');
+  doc.text('CERTIFICATE OF COMPLETION', W/2, 52, { align: 'center' });
+  doc.setFontSize(10); doc.setFont('helvetica','normal'); doc.setTextColor(120,120,120);
+  doc.text('This is to proudly certify that', W/2, 62, { align: 'center' });
+  doc.setFontSize(26); doc.setTextColor(13, 71, 161); doc.setFont('helvetica','bold');
+  doc.text(name, W/2, 78, { align: 'center' });
+  doc.setFontSize(10); doc.setFont('helvetica','normal'); doc.setTextColor(120,120,120);
+  doc.text('has successfully completed the course', W/2, 88, { align: 'center' });
+  doc.setFontSize(16); doc.setTextColor(0, 150, 180); doc.setFont('helvetica','bold');
+  doc.text(course, W/2, 100, { align: 'center' });
+  doc.setFontSize(10); doc.setFont('helvetica','normal'); doc.setTextColor(100,100,100);
+  doc.text(`Duration: ${dur || '—'}    |    Grade: ${grade}`, W/2, 112, { align: 'center' });
+  doc.text(`Date of Completion: ${fdate}`, W/2, 120, { align: 'center' });
+  doc.line(40, 125, W-40, 125);
+  doc.setFont('helvetica','bold'); doc.setTextColor(50,50,50);
+  doc.line(50, 153, 110, 153); doc.text('Akash [Your Name]', 80, 160, { align: 'center' });
+  doc.setFont('helvetica','normal'); doc.setTextColor(100,100,100); doc.setFontSize(9);
+  doc.text('Director, AKASH E SERVICE', 80, 166, { align: 'center' });
+  doc.setFont('helvetica','bold'); doc.setTextColor(50,50,50); doc.setFontSize(10);
+  doc.line(187, 153, 247, 153); doc.text('Examiner', 217, 160, { align: 'center' });
+  doc.setFont('helvetica','normal'); doc.setTextColor(100,100,100); doc.setFontSize(9);
+  doc.text('AKASH E SERVICE', 217, 166, { align: 'center' });
+  doc.setFontSize(8); doc.setTextColor(160,160,160);
+  doc.text(`Certificate ID: ${cid}  |  Issued by: AKASH E SERVICE`, W/2, 185, { align: 'center' });
+
+  doc.save(`Certificate_${name.replace(/ /g,'_')}_${cid}.pdf`);
+}
+
+// ---- MESSAGES ----
+function renderMessages() {
+  const msgs = get('aes_messages', []);
+  document.getElementById('messages-tbl').innerHTML = `
+    <thead><tr><th>#</th><th>NAME</th><th>PHONE</th><th>SUBJECT</th><th>MESSAGE</th><th>DATE</th><th>ACTION</th></tr></thead>
+    <tbody>${msgs.length ? [...msgs].reverse().map((m, i) => `
+      <tr>
+        <td>${i + 1}</td>
+        <td><div class="td-name">${m.name}</div></td>
+        <td><a href="tel:${m.phone}">${m.phone}</a></td>
+        <td>${m.subject || '—'}</td>
+        <td style="max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${m.msg}</td>
+        <td>${m.date}</td>
+        <td>
+          <div class="action-group">
+            <a href="tel:${m.phone}" class="btn btn-xs btn-act-accept"><i class="fas fa-phone"></i></a>
+            <button class="btn btn-xs btn-wa btn-xs" onclick="openWA('${m.phone}','Hello ${m.name}!')"><i class="fab fa-whatsapp"></i></button>
+            <button class="btn btn-xs btn-act-del" onclick="delMsg(${m.id})"><i class="fas fa-trash"></i></button>
+          </div>
+        </td>
+      </tr>`).join('') : '<tr><td colspan="7" style="text-align:center;padding:20px;color:var(--text-muted);">No messages yet</td></tr>'}
+    </tbody>`;
+}
+
+function delMsg(id) {
+  if (!confirm('Delete?')) return;
+  set('aes_messages', get('aes_messages', []).filter(m => m.id !== id));
+  renderMessages();
+}
+
+// ---- MODAL HELPERS ----
+document.querySelectorAll('.modal-overlay').forEach(el => {
+  el.addEventListener('click', e => { if (e.target === el) el.classList.remove('open'); });
+});
+
+// ---- INIT ----
+renderDash();
+</script>
+</body>
+</html>

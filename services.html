@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Services â€” AKASH E SERVICE</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+<nav class="navbar">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon"><i class="fas fa-laptop"></i></div>
+    <div class="nav-logo-text"><strong>AKASH E SERVICE</strong><small>Computer Service Center</small></div>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Home</a>
+    <a href="services.html" class="active">Services</a>
+    <a href="booking.html">Book Service</a>
+    <a href="courses.html">Courses</a>
+    <a href="contact.html">Contact</a>
+    <a href="about.html">About</a>
+  </div>
+  <div class="nav-right">
+    <button class="btn-wa-nav" onclick="openWA()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+    <a href="admin-login.html" class="btn-admin-nav">Admin</a>
+  </div>
+  <button class="hamburger" id="ham" onclick="toggleNav()"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-drawer" id="drawer">
+  <a href="index.html"><i class="fas fa-home"></i> Home</a>
+  <a href="services.html"><i class="fas fa-tools"></i> Services</a>
+  <a href="booking.html"><i class="fas fa-calendar-check"></i> Book Service</a>
+  <a href="courses.html"><i class="fas fa-graduation-cap"></i> Courses</a>
+  <a href="contact.html"><i class="fas fa-phone"></i> Contact</a>
+  <a href="about.html"><i class="fas fa-user"></i> About</a>
+  <div class="mobile-drawer-divider"></div>
+  <a href="admin-login.html"><i class="fas fa-lock"></i> Admin Panel</a>
+</div>
+<div class="floating-btns">
+  <a href="tel:+919999999999" class="float-btn fab-call"><i class="fas fa-phone"></i></a>
+  <a href="#" class="float-btn fab-wa" onclick="openWA()"><i class="fab fa-whatsapp"></i></a>
+</div>
+
+<div class="page-wrap">
+  <div class="page-banner">
+    <h1>Our Services</h1>
+    <p>Everything you need â€” all under one roof at affordable prices</p>
+  </div>
+
+  <section class="section">
+    <div class="section-inner">
+      <div class="cards-grid" id="servicesList"></div>
+      <div style="margin-top:32px;background:linear-gradient(135deg,#0D47A1,#1565C0);border-radius:16px;padding:28px 20px;text-align:center;color:white;">
+        <h3 style="font-family:'Rajdhani',sans-serif;font-size:22px;font-weight:700;margin-bottom:8px;">Don't see what you need?</h3>
+        <p style="font-size:14px;opacity:0.8;margin-bottom:18px;">Contact us â€” we handle all types of digital work!</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <a href="tel:+919999999999" class="btn btn-accent"><i class="fas fa-phone"></i> Call Us</a>
+          <button class="btn btn-outline" onclick="openWA()"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer>&copy; 2025 <strong>AKASH E SERVICE</strong> â€” All Rights Reserved</footer>
+</div>
+
+<script src="data.js"></script>
+<script>
+  function toggleNav() { document.getElementById('drawer').classList.toggle('open'); document.getElementById('ham').classList.toggle('open'); }
+  document.addEventListener('click', e => { const d=document.getElementById('drawer'),h=document.getElementById('ham'); if(d.classList.contains('open')&&!d.contains(e.target)&&!h.contains(e.target)){d.classList.remove('open');h.classList.remove('open');} });
+
+  const iconBgs = [
+    'linear-gradient(135deg,#1565C0,#00BCD4)',
+    'linear-gradient(135deg,#E65100,#FF9800)',
+    'linear-gradient(135deg,#1B5E20,#4CAF50)',
+    'linear-gradient(135deg,#880E4F,#E91E63)',
+    'linear-gradient(135deg,#00838F,#00BCD4)',
+    'linear-gradient(135deg,#4A148C,#9C27B0)',
+    'linear-gradient(135deg,#1565C0,#1E88E5)',
+    'linear-gradient(135deg,#BF360C,#FF5722)',
+  ];
+
+  const el = document.getElementById('servicesList');
+  SERVICES.forEach((s, i) => {
+    el.innerHTML += `
+      <div class="card">
+        <div class="card-icon" style="background:${iconBgs[i % iconBgs.length]}">
+          <i class="fas ${s.icon}"></i>
+        </div>
+        <h3>${s.name}</h3>
+        <p>${s.desc}</p>
+        <div class="card-price">${s.price}</div>
+        <a href="booking.html" class="btn btn-primary" style="margin-top:14px;font-size:13px;padding:9px 16px;">
+          <i class="fas fa-calendar-check"></i> Book Now
+        </a>
+      </div>`;
+  });
+</script>
+</body>
+</html>
+
