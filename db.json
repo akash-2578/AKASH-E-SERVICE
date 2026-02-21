@@ -1,0 +1,77 @@
+{
+  "aes_admin": true,
+  "aes_students": [],
+  "aes_attendance": {
+    "1771689774186_2026-02": {
+      "2": "present",
+      "3": "present",
+      "4": "present",
+      "5": "present"
+    }
+  },
+  "aes_courses": [
+    {
+      "id": 1,
+      "name": "Basic Computer",
+      "duration": "3 Months",
+      "fees": 2000,
+      "icon": "💻",
+      "syllabus": "MS Word, Excel, PowerPoint, Internet, Email, Tally Basics, Typing",
+      "daysPerWeek": 3
+    },
+    {
+      "id": 2,
+      "name": "Advanced Excel",
+      "duration": "2 Months",
+      "fees": 3500,
+      "icon": "📊",
+      "syllabus": "Formulas, VLOOKUP, Pivot Tables, Charts, Macros, Data Analysis, MIS Reports",
+      "daysPerWeek": 3
+    },
+    {
+      "id": 3,
+      "name": "Web Design",
+      "duration": "4 Months",
+      "fees": 6000,
+      "icon": "🌐",
+      "syllabus": "HTML5, CSS3, JavaScript, Bootstrap, Responsive Design, WordPress, Hosting",
+      "daysPerWeek": 3
+    },
+    {
+      "id": 4,
+      "name": "Typing Master",
+      "duration": "1 Month",
+      "fees": 1500,
+      "icon": "⌨️",
+      "syllabus": "Hindi & English Typing, Speed Building, Accuracy, Government Typing Tests",
+      "daysPerWeek": 6
+    },
+    {
+      "id": 5,
+      "name": "Tally Prime",
+      "duration": "2 Months",
+      "fees": 4000,
+      "icon": "📈",
+      "syllabus": "GST, Accounting, Inventory, Payroll, Vouchers, Reports, Bank Reconciliation",
+      "daysPerWeek": 3
+    },
+    {
+      "id": 6,
+      "name": "DTP & Designing",
+      "duration": "2 Months",
+      "fees": 3000,
+      "icon": "🎨",
+      "syllabus": "Photoshop, CorelDraw, Canva, Banner Design, Photo Editing, Flex Printing",
+      "daysPerWeek": 3
+    },
+    {
+      "id": 1771690189965,
+      "name": "aa",
+      "duration": "4",
+      "fees": 3432,
+      "daysPerWeek": 6,
+      "icon": "📚",
+      "syllabus": "dsdsf"
+    }
+  ]
+}

@@ -2,9 +2,54 @@
    AKASH E SERVICE — Shared Data & Utilities
    ============================================ */
 
-// Storage helpers
-const get = (k, d) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
-const set = (k, v) => localStorage.setItem(k, JSON.stringify(v));
+// Storage helpers (localStorage + JSON file database via local API)
+const API_BASE = '/api/store';
+const isHttpOrigin = () => /^https?:$/i.test(window.location.protocol);
+
+function syncFromJsonFileDb() {
+  if (!isHttpOrigin()) return;
+  try {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', API_BASE, false);
+    xhr.send();
+    if (xhr.status < 200 || xhr.status >= 300 || !xhr.responseText) return;
+
+    const all = JSON.parse(xhr.responseText);
+    if (!all || typeof all !== 'object') return;
+
+    Object.entries(all).forEach(([k, v]) => {
+      localStorage.setItem(k, JSON.stringify(v));
+    });
+  } catch {
+    // If API is unavailable, app still works with localStorage only.
+  }
+}
+
+function pushToJsonFileDb(k, v) {
+  if (!isHttpOrigin()) return;
+  fetch(`${API_BASE}/${encodeURIComponent(k)}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ value: v })
+  }).catch(() => {
+    // Ignore API failures to avoid breaking UX.
+  });
+}
+
+const get = (k, d) => {
+  try {
+    return JSON.parse(localStorage.getItem(k)) ?? d;
+  } catch {
+    return d;
+  }
+};
+
+const set = (k, v) => {
+  localStorage.setItem(k, JSON.stringify(v));
+  pushToJsonFileDb(k, v);
+};
+
+syncFromJsonFileDb();
 
 // Default data
 const DEFAULT_COURSES = [
