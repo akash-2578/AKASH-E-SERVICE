@@ -51,6 +51,19 @@ const set = (k, v) => {
 
 syncFromJsonFileDb();
 
+async function notifyAdminLead(type, payload) {
+  if (!isHttpOrigin()) return;
+  try {
+    await fetch('/api/notify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type, payload })
+    });
+  } catch {
+    // Notification is best effort; form submission should not fail.
+  }
+}
+
 // Default data
 const DEFAULT_COURSES = [
   { id: 1, name: 'Basic Computer', duration: '3 Months', fees: 2000, icon: '💻', syllabus: 'MS Word, Excel, PowerPoint, Internet, Email, Tally Basics, Typing', daysPerWeek: 3 },

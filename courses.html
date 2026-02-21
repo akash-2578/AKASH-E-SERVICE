@@ -176,6 +176,17 @@
     const students = get('aes_students', []);
     students.push(s);
     set('aes_students', students);
+    notifyAdminLead('course_enrollment', {
+      name: s.name,
+      phone: s.phone,
+      email: s.email || '-',
+      age: s.age || '-',
+      course: s.course,
+      education: s.edu || '-',
+      message: s.msg || '-',
+      fees: s.fees,
+      submittedOn: s.enrollDate
+    });
     showAlert('enroll-alert', 'success',
       `âœ… Enrollment submitted for <strong>${s.course}</strong>! We'll call you at <strong>${s.phone}</strong> to confirm your registration.`);
     document.getElementById('enrollForm').reset();

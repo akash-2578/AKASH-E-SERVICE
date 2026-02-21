@@ -189,6 +189,16 @@
     const bookings = get('aes_bookings', []);
     bookings.push(booking);
     set('aes_bookings', bookings);
+    notifyAdminLead('booking', {
+      name: booking.name,
+      phone: booking.phone,
+      email: booking.email || '-',
+      service: booking.service,
+      preferredDate: booking.date,
+      preferredTime: booking.time,
+      notes: booking.notes || '-',
+      submittedOn: booking.createdAt
+    });
     showAlert('booking-alert', 'success',
       `âœ… Booking confirmed! We'll contact you at <strong>${booking.phone}</strong> within 30 minutes to confirm your appointment for <strong>${booking.service}</strong>.`);
     document.getElementById('bookingForm').reset();
@@ -198,6 +208,5 @@
 </script>
 </body>
 </html>
-
 
 

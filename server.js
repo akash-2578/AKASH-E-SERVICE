@@ -1,11 +1,34 @@
-﻿const http = require('http');
+const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
+const nodemailer = require('nodemailer');
 
-const PORT = process.env.PORT || 3000;
 const ROOT = __dirname;
 const DB_FILE = path.join(ROOT, 'db.json');
+
+function loadEnvFile() {
+  const envPath = path.join(ROOT, '.env');
+  if (!fs.existsSync(envPath)) return;
+
+  const lines = fs.readFileSync(envPath, 'utf8').split(/\r?\n/);
+  for (const line of lines) {
+    const t = line.trim();
+    if (!t || t.startsWith('#')) continue;
+    const idx = t.indexOf('=');
+    if (idx <= 0) continue;
+    const key = t.slice(0, idx).trim();
+    const val = t.slice(idx + 1).trim();
+    if (!process.env[key]) process.env[key] = val;
+  }
+}
+
+loadEnvFile();
+
+const PORT = process.env.PORT || 3000;
+const ALERT_EMAIL_TO = process.env.ALERT_EMAIL_TO || 'akashonline2578@gmail.com';
+const SMTP_USER = process.env.SMTP_USER || '';
+const SMTP_PASS = process.env.SMTP_PASS || '';
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -77,8 +100,53 @@ function safeKeyFromPath(pathname) {
   return decodeURIComponent(key || '').trim();
 }
 
+function escapeHtml(val) {
+  return String(val ?? '')
+    .replaceAll('&', '&amp;')
+    .replaceAll('<', '&lt;')
+    .replaceAll('>', '&gt;')
+    .replaceAll('"', '&quot;')
+    .replaceAll("'", '&#39;');
+}
+
+function toRows(obj) {
+  return Object.entries(obj || {})
+    .map(([k, v]) => `<tr><td style="padding:8px;border:1px solid #ddd;"><strong>${escapeHtml(k)}</strong></td><td style="padding:8px;border:1px solid #ddd;">${escapeHtml(v)}</td></tr>`)
+    .join('');
+}
+
+async function sendLeadEmail(type, payload) {
+  if (!SMTP_USER || !SMTP_PASS) {
+    throw new Error('Email not configured. Set SMTP_USER and SMTP_PASS.');
+  }
+
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: { user: SMTP_USER, pass: SMTP_PASS }
+  });
+
+  const now = new Date().toLocaleString('en-IN');
+  const subject = `[AKASH E SERVICE] New ${type} submission`;
+  const html = `
+    <div style="font-family:Arial,sans-serif;">
+      <h2 style="margin:0 0 10px;">New ${escapeHtml(type)} submission</h2>
+      <p style="margin:0 0 14px;">Received at: ${escapeHtml(now)}</p>
+      <table style="border-collapse:collapse;width:100%;max-width:700px;">
+        ${toRows(payload)}
+      </table>
+    </div>
+  `;
+
+  await transporter.sendMail({
+    from: SMTP_USER,
+    to: ALERT_EMAIL_TO,
+    subject,
+    html
+  });
+}
+
 function serveStatic(req, res, pathname) {
-  let relPath = pathname === '/' ? '/index.html' : pathname;
+  const relPath = pathname === '/' ? '/index.html' : pathname;
   const filePath = path.normalize(path.join(ROOT, relPath));
 
   if (!filePath.startsWith(ROOT)) {
@@ -135,9 +203,29 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
+  if (pathname === '/api/notify' && req.method === 'POST') {
+    try {
+      const body = await parseBody(req);
+      const type = String(body.type || '').trim();
+      const payload = body.payload;
+
+      if (!type || !payload || typeof payload !== 'object') {
+        return sendJson(res, 400, { error: 'Body must include type and payload object' });
+      }
+
+      await sendLeadEmail(type, payload);
+      return sendJson(res, 200, { ok: true });
+    } catch (err) {
+      return sendJson(res, 500, { error: err.message || 'Failed to send email' });
+    }
+  }
+
   serveStatic(req, res, pathname);
 });
 
 server.listen(PORT, () => {
   console.log(`AKASH E SERVICE running on http://localhost:${PORT}`);
+  if (!SMTP_USER || !SMTP_PASS) {
+    console.log('Email alerts disabled: set SMTP_USER and SMTP_PASS to enable.');
+  }
 });

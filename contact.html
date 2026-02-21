@@ -159,6 +159,13 @@
     const msgs = get('aes_messages', []);
     msgs.push(m);
     set('aes_messages', msgs);
+    notifyAdminLead('contact', {
+      name: m.name,
+      phone: m.phone,
+      subject: m.subject || '-',
+      message: m.msg,
+      submittedOn: m.date
+    });
     showAlert('contact-alert', 'success', `âœ… Message sent successfully! We'll get back to you at <strong>${m.phone}</strong> soon.`);
     document.getElementById('contactForm').reset();
   }
