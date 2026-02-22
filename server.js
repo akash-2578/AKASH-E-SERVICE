@@ -129,10 +129,20 @@ async function sendLeadEmail(type, payload) {
         host: SMTP_HOST,
         port: SMTP_PORT || (SMTP_SECURE ? 465 : 587),
         secure: SMTP_SECURE || (SMTP_PORT === 465),
+        requireTLS: !SMTP_SECURE && (SMTP_PORT || 587) === 587,
+        connectionTimeout: 15000,
+        greetingTimeout: 15000,
+        socketTimeout: 20000,
         auth: { user: SMTP_USER, pass: SMTP_PASS }
       }
     : {
-        service: 'gmail',
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
+        requireTLS: true,
+        connectionTimeout: 15000,
+        greetingTimeout: 15000,
+        socketTimeout: 20000,
         auth: { user: SMTP_USER, pass: SMTP_PASS }
       };
 
