@@ -1,4 +1,5 @@
 const http = require('http');
+const https = require('https');
 const fs = require('fs');
 const path = require('path');
 const { URL } = require('url');
@@ -33,6 +34,8 @@ const SMTP_FROM = process.env.SMTP_FROM || SMTP_USER || 'no-reply@akash-e-servic
 const SMTP_HOST = process.env.SMTP_HOST || '';
 const SMTP_PORT = Number(process.env.SMTP_PORT || 0);
 const SMTP_SECURE = String(process.env.SMTP_SECURE || '').toLowerCase() === 'true';
+const RESEND_API_KEY = process.env.RESEND_API_KEY || '';
+const RESEND_FROM = process.env.RESEND_FROM || SMTP_FROM;
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -119,9 +122,77 @@ function toRows(obj) {
     .join('');
 }
 
+function postJson(url, payload, headers = {}) {
+  return new Promise((resolve, reject) => {
+    const u = new URL(url);
+    const body = JSON.stringify(payload);
+    const req = https.request(
+      {
+        method: 'POST',
+        hostname: u.hostname,
+        path: `${u.pathname}${u.search}`,
+        port: u.port || 443,
+        headers: {
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(body),
+          ...headers
+        }
+      },
+      res => {
+        let data = '';
+        res.on('data', c => (data += c));
+        res.on('end', () => {
+          if (res.statusCode >= 200 && res.statusCode < 300) {
+            resolve({ status: res.statusCode, body: data });
+          } else {
+            reject(new Error(`HTTP ${res.statusCode}: ${data || 'request failed'}`));
+          }
+        });
+      }
+    );
+    req.on('error', reject);
+    req.setTimeout(20000, () => req.destroy(new Error('HTTPS request timeout')));
+    req.write(body);
+    req.end();
+  });
+}
+
+async function sendLeadEmailViaResend(subject, html) {
+  if (!RESEND_API_KEY) throw new Error('RESEND_API_KEY not configured');
+  if (!RESEND_FROM) throw new Error('RESEND_FROM not configured');
+
+  await postJson(
+    'https://api.resend.com/emails',
+    {
+      from: RESEND_FROM,
+      to: [ALERT_EMAIL_TO],
+      subject,
+      html
+    },
+    { Authorization: `Bearer ${RESEND_API_KEY}` }
+  );
+}
+
 async function sendLeadEmail(type, payload) {
+  const now = new Date().toLocaleString('en-IN');
+  const subject = `[AKASH E SERVICE] New ${type} submission`;
+  const html = `
+    <div style="font-family:Arial,sans-serif;">
+      <h2 style="margin:0 0 10px;">New ${escapeHtml(type)} submission</h2>
+      <p style="margin:0 0 14px;">Received at: ${escapeHtml(now)}</p>
+      <table style="border-collapse:collapse;width:100%;max-width:700px;">
+        ${toRows(payload)}
+      </table>
+    </div>
+  `;
+
+  if (RESEND_API_KEY) {
+    await sendLeadEmailViaResend(subject, html);
+    return;
+  }
+
   if (!SMTP_USER || !SMTP_PASS) {
-    throw new Error('Email not configured. Set SMTP_USER and SMTP_PASS.');
+    throw new Error('Email not configured. Set SMTP_USER/SMTP_PASS or RESEND_API_KEY.');
   }
 
   const transporterConfig = SMTP_HOST
@@ -147,25 +218,7 @@ async function sendLeadEmail(type, payload) {
       };
 
   const transporter = nodemailer.createTransport(transporterConfig);
-
-  const now = new Date().toLocaleString('en-IN');
-  const subject = `[AKASH E SERVICE] New ${type} submission`;
-  const html = `
-    <div style="font-family:Arial,sans-serif;">
-      <h2 style="margin:0 0 10px;">New ${escapeHtml(type)} submission</h2>
-      <p style="margin:0 0 14px;">Received at: ${escapeHtml(now)}</p>
-      <table style="border-collapse:collapse;width:100%;max-width:700px;">
-        ${toRows(payload)}
-      </table>
-    </div>
-  `;
-
-  await transporter.sendMail({
-    from: SMTP_FROM,
-    to: ALERT_EMAIL_TO,
-    subject,
-    html
-  });
+  await transporter.sendMail({ from: SMTP_FROM, to: ALERT_EMAIL_TO, subject, html });
 }
 
 function serveStatic(req, res, pathname) {
@@ -250,7 +303,11 @@ const server = http.createServer(async (req, res) => {
 server.listen(PORT, () => {
   console.log(`AKASH E SERVICE running on http://localhost:${PORT}`);
   if (!SMTP_USER || !SMTP_PASS) {
-    console.log('Email alerts disabled: set SMTP_USER and SMTP_PASS to enable.');
+    if (!RESEND_API_KEY) {
+      console.log('Email alerts disabled: set SMTP_USER/SMTP_PASS or RESEND_API_KEY.');
+    } else {
+      console.log(`Email alerts enabled via Resend. recipient=${ALERT_EMAIL_TO}`);
+    }
   } else {
     console.log(`Email alerts enabled. recipient=${ALERT_EMAIL_TO}`);
   }
