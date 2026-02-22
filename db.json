@@ -1,5 +1,5 @@
 {
-  "aes_admin": true,
+  "aes_admin": false,
   "aes_students": [],
   "aes_attendance": {
     "1771689774186_2026-02": {
@@ -14,10 +14,10 @@
       "id": 1,
       "name": "Basic Computer",
       "duration": "3 Months",
-      "fees": 2000,
+      "fees": 8000,
+      "daysPerWeek": 3,
       "icon": "💻",
-      "syllabus": "MS Word, Excel, PowerPoint, Internet, Email, Tally Basics, Typing",
-      "daysPerWeek": 3
+      "syllabus": "MS Word, Excel, PowerPoint, Internet, Email, Tally Basics, Typing"
     },
     {
       "id": 2,
@@ -65,13 +65,13 @@
       "daysPerWeek": 3
     },
     {
-      "id": 1771690189965,
+      "id": 1771692982818,
       "name": "aa",
       "duration": "4",
-      "fees": 3432,
-      "daysPerWeek": 6,
+      "fees": 523,
+      "daysPerWeek": 3,
       "icon": "📚",
-      "syllabus": "dsdsf"
+      "syllabus": ""
     }
   ],
   "aes_messages": [
@@ -97,5 +97,6 @@
       "status": "Completed",
       "createdAt": "21/2/2026"
     }
-  ]
+  ],
+  "aes_cert_n": 1001
 }

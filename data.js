@@ -54,11 +54,15 @@ syncFromJsonFileDb();
 async function notifyAdminLead(type, payload) {
   if (!isHttpOrigin()) return;
   try {
-    await fetch('/api/notify', {
+    const res = await fetch('/api/notify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ type, payload })
     });
+    if (!res.ok) {
+      const msg = await res.text().catch(() => '');
+      console.warn('[notifyAdminLead] notify failed:', res.status, msg || '(no response body)');
+    }
   } catch {
     // Notification is best effort; form submission should not fail.
   }
@@ -66,7 +70,7 @@ async function notifyAdminLead(type, payload) {
 
 // Default data
 const DEFAULT_COURSES = [
-  { id: 1, name: 'Basic Computer', duration: '3 Months', fees: 2000, icon: '💻', syllabus: 'MS Word, Excel, PowerPoint, Internet, Email, Tally Basics, Typing', daysPerWeek: 3 },
+  { id: 1, name: 'Basic Computer', duration: '3 Months', fees: 5000, icon: '💻', syllabus: 'MS Word, Excel, PowerPoint, Internet, Email, Tally Basics, Typing', daysPerWeek: 3 },
   { id: 2, name: 'Advanced Excel', duration: '2 Months', fees: 3500, icon: '📊', syllabus: 'Formulas, VLOOKUP, Pivot Tables, Charts, Macros, Data Analysis, MIS Reports', daysPerWeek: 3 },
   { id: 3, name: 'Web Design', duration: '4 Months', fees: 6000, icon: '🌐', syllabus: 'HTML5, CSS3, JavaScript, Bootstrap, Responsive Design, WordPress, Hosting', daysPerWeek: 3 },
   { id: 4, name: 'Typing Master', duration: '1 Month', fees: 1500, icon: '⌨️', syllabus: 'Hindi & English Typing, Speed Building, Accuracy, Government Typing Tests', daysPerWeek: 6 },
@@ -87,7 +91,7 @@ const SERVICES = [
   { icon: 'fa-passport',      name: 'Passport Apply',          price: '₹300',     desc: 'New passport and renewal assistance' },
   { icon: 'fa-file-invoice',  name: 'Income Certificate',      price: '₹150',     desc: 'Application preparation & submission' },
   { icon: 'fa-users',         name: 'Caste Certificate',       price: '₹150',     desc: 'Application preparation & submission' },
-  { icon: 'fa-home',          name: 'Domicile Certificate',    price: '₹150',     desc: 'Application preparation & submission' },
+  { icon: 'fa-home',          name: 'Domicile Certificate',    price: '₹20',     desc: 'Application preparation & submission' },
   { icon: 'fa-university',    name: 'Scholarship Forms',       price: '₹100',     desc: 'State & central scholarship apply' },
   { icon: 'fa-mobile-alt',    name: 'Mobile Banking Setup',    price: '₹100',     desc: 'Internet banking & UPI setup help' },
   { icon: 'fa-envelope',      name: 'Email & Account Setup',   price: '₹50',      desc: 'Gmail, email creation & setup' },
@@ -108,7 +112,7 @@ function closeModal(id) { document.getElementById(id)?.classList.remove('open');
 
 // WhatsApp
 function openWA(phone, msg) {
-  const p = phone ? phone.replace(/\D/g, '') : '919999999999';
+  const p = phone ? phone.replace(/\D/g, '') : '917044850378';
   const full = p.startsWith('91') ? p : '91' + p;
   const text = msg || 'Hello! I need assistance from AKASH E SERVICE.';
   window.open(`https://wa.me/${full}?text=${encodeURIComponent(text)}`, '_blank');

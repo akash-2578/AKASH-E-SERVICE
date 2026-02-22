@@ -28,7 +28,11 @@ loadEnvFile();
 const PORT = process.env.PORT || 3000;
 const ALERT_EMAIL_TO = process.env.ALERT_EMAIL_TO || 'akashonline2578@gmail.com';
 const SMTP_USER = process.env.SMTP_USER || '';
-const SMTP_PASS = process.env.SMTP_PASS || '';
+const SMTP_PASS = (process.env.SMTP_PASS || '').replace(/\s+/g, '');
+const SMTP_FROM = process.env.SMTP_FROM || SMTP_USER || 'no-reply@akash-e-service.local';
+const SMTP_HOST = process.env.SMTP_HOST || '';
+const SMTP_PORT = Number(process.env.SMTP_PORT || 0);
+const SMTP_SECURE = String(process.env.SMTP_SECURE || '').toLowerCase() === 'true';
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=utf-8',
@@ -120,10 +124,19 @@ async function sendLeadEmail(type, payload) {
     throw new Error('Email not configured. Set SMTP_USER and SMTP_PASS.');
   }
 
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: { user: SMTP_USER, pass: SMTP_PASS }
-  });
+  const transporterConfig = SMTP_HOST
+    ? {
+        host: SMTP_HOST,
+        port: SMTP_PORT || (SMTP_SECURE ? 465 : 587),
+        secure: SMTP_SECURE || (SMTP_PORT === 465),
+        auth: { user: SMTP_USER, pass: SMTP_PASS }
+      }
+    : {
+        service: 'gmail',
+        auth: { user: SMTP_USER, pass: SMTP_PASS }
+      };
+
+  const transporter = nodemailer.createTransport(transporterConfig);
 
   const now = new Date().toLocaleString('en-IN');
   const subject = `[AKASH E SERVICE] New ${type} submission`;
@@ -138,7 +151,7 @@ async function sendLeadEmail(type, payload) {
   `;
 
   await transporter.sendMail({
-    from: SMTP_USER,
+    from: SMTP_FROM,
     to: ALERT_EMAIL_TO,
     subject,
     html
@@ -216,6 +229,7 @@ const server = http.createServer(async (req, res) => {
       await sendLeadEmail(type, payload);
       return sendJson(res, 200, { ok: true });
     } catch (err) {
+      console.error('[notify] email send failed:', err && err.message ? err.message : err);
       return sendJson(res, 500, { error: err.message || 'Failed to send email' });
     }
   }
@@ -227,5 +241,7 @@ server.listen(PORT, () => {
   console.log(`AKASH E SERVICE running on http://localhost:${PORT}`);
   if (!SMTP_USER || !SMTP_PASS) {
     console.log('Email alerts disabled: set SMTP_USER and SMTP_PASS to enable.');
+  } else {
+    console.log(`Email alerts enabled. recipient=${ALERT_EMAIL_TO}`);
   }
 });
