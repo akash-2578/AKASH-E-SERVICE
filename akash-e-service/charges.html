@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>সার্ভিস চার্জ — AKASH E SERVICE</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="nav">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"></span>
+      <span>AKASH E SERVICE<small>আপনার বিশ্বস্ত ডিজিটাল পরিষেবা কেন্দ্র</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">হোম</a>
+      <a href="services.html">সার্ভিস</a>
+      <a href="booking.html">বুকিং</a>
+      <a href="charges.html">চার্জ</a>
+      <a href="about.html">আমাদের সম্পর্কে</a>
+      <a href="contact.html">যোগাযোগ</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="booking.html" class="btn btn-ghost btn-sm">বুক করুন</a>
+      <a href="tel:+919564403460" class="btn btn-primary btn-sm">কল করুন</a>
+      <button class="nav-toggle" aria-label="মেনু"></button>
+    </div>
+  </div>
+</div>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb">হোম / <b>সার্ভিস চার্জ</b></div>
+    <h1>সার্ভিস চার্জের তালিকা</h1>
+    <p>নিচে সব সার্ভিসের আনুমানিক সময় ও সর্বনিম্ন চার্জ দেওয়া আছে। চূড়ান্ত চার্জ কাজের জটিলতার উপর নির্ভর করতে পারে।</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="charges-wrap">
+      <table class="charges">
+        <thead>
+          <tr><th>সার্ভিস</th><th>আনুমানিক সময়</th><th>চার্জ</th></tr>
+        </thead>
+        <tbody id="charges-table-body"></tbody>
+      </table>
+    </div>
+    <p class="form-note" style="margin-top:16px;">* সরকারি ফি বা তৃতীয় পক্ষের চার্জ (যদি থাকে) উপরের মূল্যের মধ্যে অন্তর্ভুক্ত নয়।</p>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot-grid">
+    <div>
+      <div class="foot-brand"><span class="brand-mark"></span><b style="color:#fff;font-family:var(--font-ui);">AKASH E SERVICE</b></div>
+      <p style="font-size:.87rem;max-width:280px;">আপনার বিশ্বস্ত ডিজিটাল পরিষেবা কেন্দ্র। গোচারণ, শান্তিপুর, দক্ষিণ ২৪ পরগনা।</p>
+    </div>
+    <div>
+      <h5>পেজ</h5>
+      <a href="index.html">হোম</a><a href="services.html">সার্ভিস</a><a href="booking.html">বুকিং</a><a href="charges.html">চার্জ</a>
+    </div>
+    <div>
+      <h5>তথ্য</h5>
+      <a href="about.html">আমাদের সম্পর্কে</a><a href="contact.html">যোগাযোগ</a><a href="admin.html">অ্যাডমিন লগইন</a>
+    </div>
+    <div>
+      <h5>যোগাযোগ</h5>
+      <a href="tel:+919564403460">📞 9564403460</a>
+      <a href="mailto:akashhazra2578@gmail.com">✉️ akashhazra2578@gmail.com</a>
+      <a>📍 গোচারণ, শান্তিপুর</a>
+    </div>
+  </div>
+  <div class="container foot-bottom">
+    <span>© <span id="year"></span> AKASH E SERVICE — সর্বস্বত্ব সংরক্ষিত।</span>
+    <span>ডিজাইন ও তৈরি — AKASH E SERVICE টিম</span>
+  </div>
+</footer>
+
+<div class="floating-actions">
+  <a id="fab-wa" class="fab fab-wa" target="_blank" aria-label="হোয়াটসঅ্যাপ"></a>
+  <a id="fab-call" class="fab fab-call" aria-label="কল করুন"></a>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/main.js"></script>
+<script>
+  document.getElementById('fab-wa').innerHTML = icon('whatsapp',24);
+  document.getElementById('fab-call').innerHTML = icon('phone',22);
+</script>
+</body>
+</html>

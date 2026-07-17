@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>বুকিং — AKASH E SERVICE</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="topbar">
+  <div class="nav">
+    <a href="index.html" class="brand">
+      <span class="brand-mark"></span>
+      <span>AKASH E SERVICE<small>আপনার বিশ্বস্ত ডিজিটাল পরিষেবা কেন্দ্র</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="index.html">হোম</a>
+      <a href="services.html">সার্ভিস</a>
+      <a href="booking.html">বুকিং</a>
+      <a href="charges.html">চার্জ</a>
+      <a href="about.html">আমাদের সম্পর্কে</a>
+      <a href="contact.html">যোগাযোগ</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="booking.html" class="btn btn-ghost btn-sm">বুক করুন</a>
+      <a href="tel:+919564403460" class="btn btn-primary btn-sm">কল করুন</a>
+      <button class="nav-toggle" aria-label="মেনু"></button>
+    </div>
+  </div>
+</div>
+
+<section class="page-hero">
+  <div class="container">
+    <div class="breadcrumb">হোম / <b>বুকিং</b></div>
+    <h1>সার্ভিস বুক করুন</h1>
+    <p>নিচের ফর্মটি পূরণ করুন — আমরা যত দ্রুত সম্ভব আপনার সাথে যোগাযোগ করব।</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="grid" style="grid-template-columns:1.4fr 1fr;gap:30px;align-items:flex-start;">
+      <div class="form-card">
+        <form id="booking-form">
+          <div class="form-row">
+            <div class="field">
+              <label for="b-name">নাম *</label>
+              <input type="text" id="b-name" placeholder="আপনার পুরো নাম" required>
+            </div>
+            <div class="field">
+              <label for="b-phone">ফোন নম্বর *</label>
+              <input type="tel" id="b-phone" placeholder="যেমন 98XXXXXXXX" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="b-village">গ্রাম / এলাকা</label>
+            <input type="text" id="b-village" placeholder="আপনার গ্রাম বা এলাকার নাম">
+          </div>
+          <div class="field">
+            <label for="b-service">সার্ভিস নির্বাচন করুন *</label>
+            <select id="b-service" required></select>
+          </div>
+          <div class="field">
+            <label for="b-message">মন্তব্য</label>
+            <textarea id="b-message" placeholder="আপনার প্রয়োজন সম্পর্কে বিস্তারিত লিখুন (ঐচ্ছিক)"></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">বুকিং নিশ্চিত করুন</button>
+          <div class="success-box" id="booking-success"></div>
+          <p class="form-note">সাবমিট করলে বুকিং সরাসরি আমাদের ইমেইলে পাঠানো হয়। নেটওয়ার্ক সমস্যা হলে ব্যাকআপ হিসেবে আপনার ডিফল্ট ইমেইল অ্যাপ খুলবে।</p>
+        </form>
+      </div>
+
+      <div>
+        <div class="card-plain" style="margin-bottom:16px;">
+          <h4 style="font-family:var(--font-ui);margin-bottom:10px;">সরাসরি যোগাযোগ</h4>
+          <div class="contact-item"><span class="ic" id="ic-phone"></span><div><b>ফোন / হোয়াটসঅ্যাপ</b><span>+91 9564403460</span></div></div>
+          <div class="contact-item"><span class="ic" id="ic-mail"></span><div><b>ইমেইল</b><span>akashhazra2578@gmail.com</span></div></div>
+          <a href="https://wa.me/919564403460" target="_blank" class="btn btn-wa btn-block" style="margin-top:10px;">হোয়াটসঅ্যাপে মেসেজ করুন</a>
+        </div>
+        <div class="card-plain">
+          <h4 style="font-family:var(--font-ui);margin-bottom:10px;">কীভাবে কাজ করে</h4>
+          <ul style="display:flex;flex-direction:column;gap:10px;padding:0;margin:0;">
+            <li style="display:flex;gap:10px;font-size:.88rem;color:var(--muted);"><span class="dot" style="width:8px;height:8px;border-radius:50%;background:var(--primary);margin-top:6px;"></span>ফর্ম পূরণ করে বুকিং জমা দিন</li>
+            <li style="display:flex;gap:10px;font-size:.88rem;color:var(--muted);"><span class="dot" style="width:8px;height:8px;border-radius:50%;background:var(--primary);margin-top:6px;"></span>আমরা ফোন/হোয়াটসঅ্যাপে যোগাযোগ করব</li>
+            <li style="display:flex;gap:10px;font-size:.88rem;color:var(--muted);"><span class="dot" style="width:8px;height:8px;border-radius:50%;background:var(--primary);margin-top:6px;"></span>প্রয়োজনীয় ডকুমেন্ট নিয়ে অফিসে আসুন</li>
+            <li style="display:flex;gap:10px;font-size:.88rem;color:var(--muted);"><span class="dot" style="width:8px;height:8px;border-radius:50%;background:var(--primary);margin-top:6px;"></span>কাজ সম্পন্ন হলে জানিয়ে দেওয়া হবে</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot-grid">
+    <div>
+      <div class="foot-brand"><span class="brand-mark"></span><b style="color:#fff;font-family:var(--font-ui);">AKASH E SERVICE</b></div>
+      <p style="font-size:.87rem;max-width:280px;">আপনার বিশ্বস্ত ডিজিটাল পরিষেবা কেন্দ্র। গোচারণ, শান্তিপুর, দক্ষিণ ২৪ পরগনা।</p>
+    </div>
+    <div>
+      <h5>পেজ</h5>
+      <a href="index.html">হোম</a><a href="services.html">সার্ভিস</a><a href="booking.html">বুকিং</a><a href="charges.html">চার্জ</a>
+    </div>
+    <div>
+      <h5>তথ্য</h5>
+      <a href="about.html">আমাদের সম্পর্কে</a><a href="contact.html">যোগাযোগ</a><a href="admin.html">অ্যাডমিন লগইন</a>
+    </div>
+    <div>
+      <h5>যোগাযোগ</h5>
+      <a href="tel:+919564403460">📞 9564403460</a>
+      <a href="mailto:akashhazra2578@gmail.com">✉️ akashhazra2578@gmail.com</a>
+      <a>📍 গোচারণ, শান্তিপুর</a>
+    </div>
+  </div>
+  <div class="container foot-bottom">
+    <span>© <span id="year"></span> AKASH E SERVICE — সর্বস্বত্ব সংরক্ষিত।</span>
+    <span>ডিজাইন ও তৈরি — AKASH E SERVICE টিম</span>
+  </div>
+</footer>
+
+<div class="floating-actions">
+  <a id="fab-wa" class="fab fab-wa" target="_blank" aria-label="হোয়াটসঅ্যাপ"></a>
+  <a id="fab-call" class="fab fab-call" aria-label="কল করুন"></a>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/icons.js"></script>
+<script src="js/main.js"></script>
+<script>
+  document.getElementById('fab-wa').innerHTML = icon('whatsapp',24);
+  document.getElementById('fab-call').innerHTML = icon('phone',22);
+  document.getElementById('ic-phone').innerHTML = icon('phone',18);
+  document.getElementById('ic-mail').innerHTML = icon('mail',18);
+</script>
+</body>
+</html>
